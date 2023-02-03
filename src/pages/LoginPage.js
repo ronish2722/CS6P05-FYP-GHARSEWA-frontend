@@ -2,8 +2,7 @@ import React, { useContext } from "react";
 import AuthContext from "../context/AuthContext";
 
 const LoginPage = () => {
-  let { contextData } = useContext(AuthContext);
-  let { loginUser } = contextData;
+  let { loginUser } = useContext(AuthContext);
 
   return (
     <div>

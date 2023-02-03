@@ -11,8 +11,9 @@ function App() {
   return (
     <div className="App">
       <Router>
-        <Header />
         <AuthProvider>
+          <Header />
+
           <Routes>
             <Route element={<PrivateRoutes />}>
               <Route element={<HomePage />} path="/" exact />
