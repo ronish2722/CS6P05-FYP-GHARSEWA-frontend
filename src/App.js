@@ -12,8 +12,6 @@ function App() {
     <div className="App">
       <Router>
         <AuthProvider>
-          <Header />
-
           <Routes>
             <Route element={<PrivateRoutes />}>
               <Route element={<HomePage />} path="/" exact />

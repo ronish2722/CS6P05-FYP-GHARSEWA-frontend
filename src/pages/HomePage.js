@@ -1,5 +1,7 @@
 import React, { useState, useEffect, useContext } from "react";
 import AuthContext from "../context/AuthContext";
+import Header from "../components/Header";
+import Footer from "../components/Footer";
 
 const HomePage = () => {
   let [notes, setNotes] = useState([]);
@@ -27,13 +29,25 @@ const HomePage = () => {
   };
   return (
     <div>
-      <p>you are logged in to the homepage!</p>
+      {/* <div>
+        <p>you are logged in to the homepage!</p>
 
-      <ul>
-        {notes.map((note) => (
-          <li key={note.id}>{note.body}</li>
-        ))}
-      </ul>
+        <ul>
+          {notes.map((note) => (
+            <li key={note.id}>{note.body}</li>
+          ))}
+        </ul>
+      </div> */}
+      <Header />
+
+      <div>
+        <img
+          src={require("../image/fyp4.jpg")}
+          alt="home"
+          className=" w-screen h-[400px] object-cover"
+        />
+      </div>
+      <Footer />
     </div>
   );
 };
