@@ -1,8 +1,17 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
+import { Link, redirect } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
 import AuthContext from "../context/AuthContext";
-import "../image/fyp2.jpeg";
+import { login } from "../actions/userAction";
 
-const LoginPage = () => {
+const LoginPage = (location, history) => {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
+  // const redirect = location.search ? location.search.split("=")[1] : "/";
+
+  // const userLogin = useSelector((state) => state.userLogin);
+
   let { loginUser } = useContext(AuthContext);
 
   return (
@@ -26,12 +35,14 @@ const LoginPage = () => {
                 type="text"
                 name="username"
                 // placeholder="Enter username"
+                onChange={(e) => setEmail(e.target.value)}
                 className="border-b-2 h-[40px]"
               />
               <label>Password</label>
               <input
                 type="password"
                 name="password"
+                onChange={(e) => setPassword(e.target.value)}
                 // placeholder="Enter password"
                 className="border-b-2 h-[40px]"
               />
@@ -43,7 +54,14 @@ const LoginPage = () => {
           </form>
         </div>
         <p className="text-center text-zinc-400 font-thin">
-          New to GharSewa?<u> Create a New Account</u>
+          New to GharSewa?
+          <u>
+            <Link
+              to={redirect ? ` /register?redirect=${redirect}` : "/register"}
+            >
+              Create a New Account
+            </Link>
+          </u>
         </p>
       </div>
     </div>
