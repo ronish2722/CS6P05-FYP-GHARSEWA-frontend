@@ -4,6 +4,7 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 // import { AuthProvider } from "./context/AuthContext";
 
 import LoginPage from "./pages/LoginPage";
+import RegisterPage from "./pages/RegisterPage";
 import PrivateRoutes from "./utils/PrivateRoute";
 import Header from "./components/Header";
 
@@ -18,6 +19,7 @@ function App() {
             <Route element={<HomePage />} path="/" exact />
           </Route>
           <Route element={<LoginPage />} path="/login" />
+          <Route element={<RegisterPage />} path="/register" />
         </Routes>
         {/* </AuthProvider> */}
       </Router>
