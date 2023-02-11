@@ -1,14 +1,14 @@
-import { configureStore, combineReducers, applyMiddleware } from "redux";
+import { combineReducers, applyMiddleware } from "redux";
 import thunk from "redux-thunk";
 import { composeWithDevTools } from "redux-devtools-extension";
-import { userLoginReducer } from "./reducers/userReducers";
+import { userLoginReducer } from "./reducer/userReducer";
 import { configureStore } from "@reduxjs/toolkit";
 
 const reducer = combineReducers({
   userLogin: userLoginReducer,
 });
 
-const userInfoFromStorage = localStroage.getItem("userInfo")
+const userInfoFromStorage = localStorage.getItem("userInfo")
   ? JSON.parse(localStorage.getItem("userInfo"))
   : null;
 
@@ -18,8 +18,11 @@ const initailState = {
 
 const middleware = [thunk];
 
-const store = configureStore(
+const store = configureStore({
   reducer,
-  initailState,
-  composeWithDevTools(applyMiddleware(...middleware))
-);
+  preloadedState: initailState,
+  devTools: process.env.NODE_ENV !== "production",
+  enhancers: [applyMiddleware(...middleware)],
+});
+
+export default store;

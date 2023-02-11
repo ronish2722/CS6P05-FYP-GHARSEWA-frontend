@@ -1,5 +1,5 @@
-import React, { useContext, useState } from "react";
-import { Link, redirect } from "react-router-dom";
+import React, { useContext, useState, useEffect } from "react";
+import { Link, redirect, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import AuthContext from "../context/AuthContext";
 import { login } from "../actions/userAction";
@@ -8,11 +8,28 @@ const LoginPage = (location, history) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  // const redirect = location.search ? location.search.split("=")[1] : "/";
+  const navigate = useNavigate();
 
-  // const userLogin = useSelector((state) => state.userLogin);
+  const dispatch = useDispatch();
 
-  let { loginUser } = useContext(AuthContext);
+  const redirect = location.search ? location.search.split("=")[1] : "/";
+
+  const userLogin = useSelector((state) => state.userLogin);
+
+  const { error, loading, userInfo } = userLogin;
+
+  // let { loginUser } = useContext(AuthContext);
+
+  useEffect(() => {
+    if (userInfo) {
+      navigate(redirect);
+    }
+  }, [history, userInfo, redirect]);
+
+  const submitHandler = (e) => {
+    e.preventDefault();
+    dispatch(login(email, password));
+  };
 
   return (
     <div className="flex justify-between">
@@ -28,7 +45,8 @@ const LoginPage = (location, history) => {
             Welcome to GharSewa
           </p>
 
-          <form onSubmit={(e) => loginUser(e)}>
+          {/* <form onSubmit={(e) => loginUser(e)}> */}
+          <form onSubmit={submitHandler}>
             <div className="flex flex-col p-[20px] space-y-[20px]">
               <label>Username</label>
               <input

@@ -5,7 +5,7 @@ import Footer from "../components/Footer";
 
 const HomePage = () => {
   let [notes, setNotes] = useState([]);
-  let { authTokens, logoutUser } = useContext(AuthContext);
+  // let { authTokens, logoutUser } = useContext(AuthContext);
 
   // useEffect(() => {
   //   getNotes();

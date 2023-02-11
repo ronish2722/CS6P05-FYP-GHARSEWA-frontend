@@ -19,7 +19,7 @@ export const login = (email, password) => async (dispatch) => {
     };
 
     const { data } = await axios.post(
-      "/api/token",
+      "http://127.0.0.1:8000/api/token/",
       { username: email, password: password },
       config
     );
@@ -39,4 +39,9 @@ export const login = (email, password) => async (dispatch) => {
           : error.message,
     });
   }
+};
+
+export const logout = () => (dispatch) => {
+  localStorage.removeItem("userInfo");
+  dispatch({ type: USER_LOGIN_LOGOUT });
 };
