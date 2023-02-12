@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
 import { logout } from "../actions/userAction";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import AuthContext from "../context/AuthContext";
 import { useDispatch } from "react-redux";
 
@@ -31,7 +31,9 @@ const Header = () => {
       <div className="flex justify-between px-[50px] py-[15px] ">
         <h1 className="my-auto font-black text-lg">GharSewa</h1>
         <div className="flex">
-          <p className="px-[30px] my-auto items-end">My Profile</p>
+          <p className="px-[30px] my-auto items-end">
+            <Link to={"/profile"}>My Profile</Link>
+          </p>
           <p className="px-[30px] my-auto items-end" onClick={logoutHandler}>
             Logout
           </p>

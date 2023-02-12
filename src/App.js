@@ -5,6 +5,7 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
 import LoginPage from "./pages/LoginPage";
 import RegisterPage from "./pages/RegisterPage";
+import ProfilePage from "./pages/ProfilePage";
 import PrivateRoutes from "./utils/PrivateRoute";
 import Header from "./components/Header";
 
@@ -20,6 +21,7 @@ function App() {
           </Route>
           <Route element={<LoginPage />} path="/login" />
           <Route element={<RegisterPage />} path="/register" />
+          <Route element={<ProfilePage />} path="/profile" />
         </Routes>
         {/* </AuthProvider> */}
       </Router>
