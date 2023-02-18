@@ -2,6 +2,11 @@ import React, { useState, useEffect, useContext } from "react";
 import AuthContext from "../context/AuthContext";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
+import HomePageForm from "../components/HomepageForm";
+
+const onChange = (key) => {
+  console.log(key);
+};
 
 const HomePage = () => {
   let [notes, setNotes] = useState([]);
@@ -46,6 +51,9 @@ const HomePage = () => {
           alt="home"
           className=" w-screen h-[400px] object-cover"
         />
+        <div className="mt-[-100px] flex justify-center">
+          <HomePageForm />
+        </div>
       </div>
       <Footer />
     </div>

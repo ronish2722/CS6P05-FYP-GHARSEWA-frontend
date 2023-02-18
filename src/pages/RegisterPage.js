@@ -23,11 +23,11 @@ const RegisterPage = (location, history) => {
 
   // let { loginUser } = useContext(AuthContext);
 
-  useEffect(() => {
-    if (userInfo) {
-      navigate(redirect);
-    }
-  }, [history, userInfo, redirect]);
+  // useEffect(() => {
+  //   if (userInfo) {
+  //     navigate(redirect);
+  //   }
+  // }, [history, userInfo, redirect]);
 
   const submitHandler = (e) => {
     e.preventDefault();
@@ -35,6 +35,7 @@ const RegisterPage = (location, history) => {
       setMessage("Password doesnt match");
     } else {
       dispatch(register(name, email, password));
+      navigate("/login");
     }
   };
   return (

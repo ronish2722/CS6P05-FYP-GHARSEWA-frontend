@@ -127,5 +127,6 @@ export const getUserDetails = (id) => async (dispatch, getState) => {
 
 export const logout = () => (dispatch) => {
   localStorage.removeItem("userInfo");
+  console.log("item removed");
   dispatch({ type: USER_LOGIN_LOGOUT });
 };

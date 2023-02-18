@@ -40,7 +40,56 @@ function ProfilePage({ history }) {
       console.log("Update>>>");
     }
   };
-  return <div>ProfilePage</div>;
+  return (
+    <div>
+      <form onSubmit={submitHandler}>
+        <div className="flex flex-col p-[20px] space-y-[20px]">
+          <label>Name</label>
+          <input
+            required
+            type="text"
+            name="name"
+            value={name}
+            // placeholder="Enter username"
+            onChange={(e) => setName(e.target.value)}
+            className="border-b-2 h-[40px]"
+          />
+          <label>Email</label>
+          <input
+            required
+            type="email"
+            name="email"
+            // placeholder="Enter username"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            className="border-b-2 h-[40px]"
+          />
+          <label>Password</label>
+          <input
+            type="password"
+            name="password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            // placeholder="Enter password"
+            className="border-b-2 h-[40px]"
+          />
+          <label>Confirm Password</label>
+          <input
+            type="password"
+            name="confirm password"
+            value={confirmPassword}
+            onChange={(e) => setConfirmPassword(e.target.value)}
+            // placeholder="Enter password"
+            className="border-b-2 h-[40px]"
+          />
+
+          <button className="bg-slate-700 w-[180px] h-[40px] text-white rounded-[15px] mx-auto">
+            Update
+          </button>
+        </div>
+      </form>
+    </div>
+  );
 }
 
 export default ProfilePage;
