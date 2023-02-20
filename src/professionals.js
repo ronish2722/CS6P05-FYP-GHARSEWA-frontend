@@ -32,7 +32,7 @@ const professionals = [
   {
     __id: "4",
     name: "sita",
-    image: "/image/sita.jpg",
+    image: "/image/sita.png",
     description: "hello i am sita",
     location: "patan",
     category: "gardener",

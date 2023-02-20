@@ -10,6 +10,7 @@ function PostRequest() {
         style={{
           maxWidth: 600,
         }}
+        className="flex justify-between"
       >
         <Form.Item
           name="Repair"

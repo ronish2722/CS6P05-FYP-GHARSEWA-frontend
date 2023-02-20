@@ -8,11 +8,11 @@ const ViewProPage = () => {
     <div>
       <Header />
       <h1 className="font-black text-3xl pl-[50px] pt-[10px]">Professionals</h1>
-      <div className="flex">
+      <div className="flex ">
         <div className="w-1/4 font-black text-xl pl-[50px] pt-[10px] border-r-2">
           Filters
         </div>
-        <div className="ml-[200px]">
+        <div className="mx-[50px]">
           {professionals.map((professional) => (
             <div key={professional.__id}>
               <Professionals professional={professional} />
