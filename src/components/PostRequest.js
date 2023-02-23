@@ -57,12 +57,13 @@ function PostRequest() {
           <Input placeholder="Search for a category" />
         </Form.Item>
         <Form.Item>
-          <Button type="primary" htmlType="submit">
+          <Button type="primary" htmlType="submit" className="bg-[#403D3A]">
             Search
           </Button>
         </Form.Item>
+
         <Form.Item>
-          <Button type="primary" htmlType="submit">
+          <Button type="primary" htmlType="submit" className="bg-[#403D3A]">
             View all professionals
           </Button>
         </Form.Item>

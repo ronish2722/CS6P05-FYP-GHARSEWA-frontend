@@ -3,6 +3,9 @@ import AuthContext from "../context/AuthContext";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 import HomePageForm from "../components/HomepageForm";
+import Carousel from "../components/Carousel";
+import AboutUs from "../components/AboutUs";
+import Services from "../components/Services";
 
 const onChange = (key) => {
   console.log(key);
@@ -45,16 +48,19 @@ const HomePage = () => {
       </div> */}
       <Header />
 
-      <div>
+      <div className="bg-[#F0EFEF]">
         <img
           src={require("../image/fyp4.jpg")}
           alt="home"
-          className=" w-screen h-[400px] object-cover"
+          className=" w-screen h-[250px] object-cover"
         />
         <div className="mt-[-100px] flex justify-center">
           <HomePageForm />
         </div>
       </div>
+      <AboutUs />
+      <Services />
+      {/* <Carousel /> */}
       <Footer />
     </div>
   );

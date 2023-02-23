@@ -1,4 +1,5 @@
 import { Button, Form, Input, Select } from "antd";
+import { Link } from "react-router-dom";
 
 import ViewProPage from "../pages/ViewProPage";
 
@@ -12,26 +13,34 @@ const SearchWorker = () => {
           maxWidth: 600,
         }}
       >
-        <Form.Item
-          name="Search"
-          className="pt-[10px]"
-          rules={[
-            {
-              required: false,
-            },
-          ]}
-        >
-          <Input placeholder="Search for a category" />
-        </Form.Item>
+        <div className="flex">
+          <Form.Item
+            name="Search"
+            className="pt-[10px] w-5/6"
+            rules={[
+              {
+                required: false,
+              },
+            ]}
+          >
+            <Input placeholder="Search for a category" />
+          </Form.Item>
+          <Form.Item className=" pt-[10px] pl-[10px]">
+            <Button
+              type="primary"
+              htmlType="submit"
+              className="bg-[#403D3A] w-[100px]"
+            >
+              Search
+            </Button>
+          </Form.Item>
+        </div>
         <Form.Item>
-          <Button type="primary" htmlType="submit">
-            Search
-          </Button>
-        </Form.Item>
-        <Form.Item>
-          <Button type="primary" htmlType="submit">
-            View all professionals
-          </Button>
+          <Link to="/viewpro">
+            <Button type="primary" htmlType="submit" className="bg-[#403D3A]">
+              View all professionals
+            </Button>
+          </Link>
         </Form.Item>
       </Form>
     </div>

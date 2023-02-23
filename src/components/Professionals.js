@@ -9,7 +9,7 @@ function Professionals({ professional }) {
       <Card className="my-3 p-3 rounded mx-[20px] w-full">
         <div className="flex">
           <div className="">
-            <Link to={`/professionals/${professional.__id}`}>
+            <Link to={`/professionals/${professional._id}`}>
               <Image
                 width={200}
                 src={professional.image}
@@ -24,7 +24,7 @@ function Professionals({ professional }) {
             </Link>
           </div>
           <div className="mx-[30px]">
-            <Link to={`/professionals/${professional.__id}`}>
+            <Link to={`/professionals/${professional._id}`}>
               <p className="font-black text-xl">{professional.name}</p>
             </Link>
 

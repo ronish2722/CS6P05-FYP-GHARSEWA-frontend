@@ -26,7 +26,6 @@ const middleware = [thunk];
 
 const store = configureStore({
   reducer,
-  preloadedState: initailState,
   devTools: process.env.NODE_ENV !== "production",
   enhancers: [applyMiddleware(...middleware)],
 });
