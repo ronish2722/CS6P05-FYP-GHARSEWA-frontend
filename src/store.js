@@ -6,9 +6,18 @@ import {
   userRegisterReducer,
   userDetailsReducer,
 } from "./reducer/userReducer";
+
+import {
+  professionalDetailsReducers,
+  professionalListReducers,
+} from "./reducer/professionalReducer";
+
 import { configureStore } from "@reduxjs/toolkit";
 
 const reducer = combineReducers({
+  professionalList: professionalListReducers,
+  professionalDetail: professionalDetailsReducers,
+
   userLogin: userLoginReducer,
   userRegister: userRegisterReducer,
   userDetails: userDetailsReducer,
