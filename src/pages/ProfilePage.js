@@ -6,6 +6,7 @@ import { useNavigate } from "react-router-dom";
 
 function ProfilePage({ history }) {
   const [name, setName] = useState("");
+
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
@@ -24,6 +25,7 @@ function ProfilePage({ history }) {
   // let { loginUser } = useContext(AuthContext);
 
   useEffect(() => {
+    console.log(userLogin);
     if (!user || !user.name) {
       dispatch(getUserDetails("profile"));
     } else {

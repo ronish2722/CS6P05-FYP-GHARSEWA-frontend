@@ -10,6 +10,10 @@ import {
   USER_DETAILS_REQUEST,
   USER_DETAILS_SUCCESS,
   USER_DETAILS_FAIL,
+  USER_LIST_REQUEST,
+  USER_LIST_SUCCESS,
+  USER_LIST_FAIL,
+  USER_LIST_RESET,
 } from "../constant/userConstant";
 
 export const login = (email, password) => async (dispatch) => {
@@ -25,7 +29,7 @@ export const login = (email, password) => async (dispatch) => {
     };
 
     const { data } = await axios.post(
-      "http://127.0.0.1:8000/api/token/",
+      "/api/token/",
       { username: email, password: password },
       config
     );
@@ -60,7 +64,7 @@ export const register = (name, email, password) => async (dispatch) => {
     };
 
     const { data } = await axios.post(
-      "http://127.0.0.1:8000/api/users/register",
+      "/api/users/register",
       { name: name, email: email, password: password },
       config
     );
@@ -105,7 +109,7 @@ export const getUserDetails = (id) => async (dispatch, getState) => {
     };
 
     const { data } = await axios.get(
-      `http://127.0.0.1:8000/api/users/${id}/`,
+      `/api/users/${id}/`,
 
       config
     );
@@ -127,6 +131,74 @@ export const getUserDetails = (id) => async (dispatch, getState) => {
 
 export const logout = () => (dispatch) => {
   localStorage.removeItem("userInfo");
-  console.log("item removed");
   dispatch({ type: USER_LOGIN_LOGOUT });
+  dispatch({ type: USER_LIST_RESET });
+};
+
+// export const listUsers = () => async (dispatch, getState) => {
+//   try {
+//     dispatch({
+//       type: USER_LIST_REQUEST,
+//     });
+
+//     const {
+//       userLogin: { userInfo },
+//     } = getState();
+
+//     const config = {
+//       headers: {
+//         "Content-type": "application/json",
+//         Authorization: `Bearer ${userInfo.token}`,
+//       },
+//     };
+
+//     const { data } = await axios.get(`/api/users/`, config);
+
+//     dispatch({
+//       type: USER_LIST_SUCCESS,
+//       payload: data,
+//     });
+//   } catch (error) {
+//     dispatch({
+//       type: USER_LIST_FAIL,
+//       payload:
+//         error.response && error.response.data.detail
+//           ? error.response.data.detail
+//           : error.message,
+//     });
+//   }
+// };
+
+export const listUsers = () => async (dispatch, getState) => {
+  try {
+    dispatch({
+      type: USER_LIST_REQUEST,
+    });
+
+    const userInfoFromStorage = localStorage.getItem("userInfo")
+      ? JSON.parse(localStorage.getItem("userInfo"))
+      : null;
+
+    const config = {
+      headers: {
+        "Content-type": "application/json",
+        Authorization: `Bearer ${userInfoFromStorage.token}`,
+      },
+    };
+
+    const { data } = await axios.get(`/api/users/`, config);
+
+    dispatch({
+      type: USER_LIST_SUCCESS,
+      payload: data,
+    });
+  } catch (error) {
+    dispatch({
+      type: USER_LIST_FAIL,
+      payload:
+        error.response && error.response.data.detail
+          ? error.response.data.detail
+          : error.message,
+    });
+  }
 };

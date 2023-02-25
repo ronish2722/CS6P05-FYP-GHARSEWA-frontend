@@ -2,10 +2,15 @@ import React, { useContext } from "react";
 import { logout } from "../actions/userAction";
 import { Link, NavLink, useNavigate } from "react-router-dom";
 import AuthContext from "../context/AuthContext";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { Dropdown, Space } from "antd";
+import useSelection from "antd/es/table/hooks/useSelection";
 
 const Header = () => {
   // let { user, logoutUser } = useContext(AuthContext);
+
+  const userLogin = useSelector((state) => state.userLogin);
+  const { userInfo } = userLogin;
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -39,6 +44,11 @@ const Header = () => {
           <p className="px-[30px] my-auto items-end" onClick={logoutHandler}>
             Logout
           </p>
+          {/* {userInfo && userInfo.isAdmin && (
+            <p className="px-[30px] my-auto items-end">
+              <Link to="/admin/userlist">Users</Link>
+            </p>
+          )} */}
 
           <button className="bg-slate-700 w-[120px] h-[40px] text-white rounded-[15px]">
             To-do List

@@ -5,6 +5,7 @@ import {
   userLoginReducer,
   userRegisterReducer,
   userDetailsReducer,
+  userListReducer,
 } from "./reducer/userReducer";
 
 import {
@@ -21,22 +22,32 @@ const reducer = combineReducers({
   userLogin: userLoginReducer,
   userRegister: userRegisterReducer,
   userDetails: userDetailsReducer,
+  userList: userListReducer,
 });
 
 const userInfoFromStorage = localStorage.getItem("userInfo")
   ? JSON.parse(localStorage.getItem("userInfo"))
   : null;
 
-const initailState = {
+const initialState = {
   userLogin: { userInfo: userInfoFromStorage },
 };
 
 const middleware = [thunk];
 
+// const store = configureStore({
+//   reducer,
+//   initialState,
+//   devTools: process.env.NODE_ENV !== "production",
+//   enhancers: [applyMiddleware(...middleware)],
+// });
+
 const store = configureStore({
   reducer,
+  middleware: middleware,
   devTools: process.env.NODE_ENV !== "production",
-  enhancers: [applyMiddleware(...middleware)],
+  // enhancers: [composeWithDevTools()],
+  initialState: initialState, // declare the initial state here
 });
 
 export default store;

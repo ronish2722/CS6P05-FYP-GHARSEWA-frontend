@@ -15,8 +15,6 @@ const ViewProPage = () => {
 
   const { error, loading, professionals } = professionalList;
 
-  console.log(professionalList);
-
   useEffect(() => {
     // async function fetchProfessionals() {
     //   const { data } = await axios.get("/api/professionals/");
@@ -24,7 +22,7 @@ const ViewProPage = () => {
     // }
 
     // fetchProfessionals();
-    console.log("ran");
+
     dispatch(listProfessionals());
   }, []);
   return (

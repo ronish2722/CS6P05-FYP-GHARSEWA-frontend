@@ -8,6 +8,7 @@ import RegisterPage from "./pages/RegisterPage";
 import ProfilePage from "./pages/ProfilePage";
 import ViewProPage from "./pages/ViewProPage";
 import ProfessionalsView from "./pages/ProfessionalsView";
+import UserListPage from "./pages/UserListPage";
 import PrivateRoutes from "./utils/PrivateRoute";
 import Header from "./components/Header";
 
@@ -26,6 +27,7 @@ function App() {
           <Route element={<ProfilePage />} path="/profile" />
           <Route element={<ViewProPage />} path="/viewpro" />
           <Route element={<ProfessionalsView />} path="/professionals/:id" />
+          <Route element={<UserListPage />} path="/admin/userlist" />
         </Routes>
         {/* </AuthProvider> */}
       </Router>
