@@ -5,6 +5,7 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
 import LoginPage from "./pages/LoginPage";
 import RegisterPage from "./pages/RegisterPage";
+import RegisterProfessional from "./pages/RegisterProfessional";
 import ProfilePage from "./pages/ProfilePage";
 import ViewProPage from "./pages/ViewProPage";
 import ProfessionalsView from "./pages/ProfessionalsView";
@@ -27,9 +28,14 @@ function App() {
           </Route>
           <Route element={<LoginPage />} path="/login" />
           <Route element={<RegisterPage />} path="/register" />
+          <Route
+            element={<RegisterProfessional />}
+            path="/register-professional"
+          />
           <Route element={<ProfilePage />} path="/profile" />
           <Route element={<ViewProPage />} path="/viewpro" />
           <Route element={<TodoList />} path="/todo/" />
+
           <Route element={<PostsList />} path="/posts/" />
           <Route element={<ProfessionalsView />} path="/professionals/:id" />
           <Route element={<UserListPage />} path="/admin/userlist" />
