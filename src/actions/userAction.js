@@ -14,6 +14,9 @@ import {
   USER_LIST_SUCCESS,
   USER_LIST_FAIL,
   USER_LIST_RESET,
+  USER_DELETE_REQUEST,
+  USER_DELETE_SUCCESS,
+  USER_DELETE_FAIL,
 } from "../constant/userConstant";
 
 export const login = (email, password) => async (dispatch) => {
@@ -97,14 +100,27 @@ export const getUserDetails = (id) => async (dispatch, getState) => {
       type: USER_DETAILS_REQUEST,
     });
 
-    const {
-      userLogin: { userInfo },
-    } = getState();
+    // const {
+    //   userLogin: { userInfo },
+    // } = getState();
+
+    // console.log(userInfo);
+
+    // const config = {
+    //   headers: {
+    //     "Content-type": "application/json",
+    //     Authorization: `Bearer ${userInfo.token}`,
+    //   },
+    // };
+
+    const userInfoFromStorage = localStorage.getItem("userInfo")
+      ? JSON.parse(localStorage.getItem("userInfo"))
+      : null;
 
     const config = {
       headers: {
         "Content-type": "application/json",
-        Authorization: `Bearer ${userInfo.token}`,
+        Authorization: `Bearer ${userInfoFromStorage.token}`,
       },
     };
 
@@ -195,6 +211,40 @@ export const listUsers = () => async (dispatch, getState) => {
   } catch (error) {
     dispatch({
       type: USER_LIST_FAIL,
+      payload:
+        error.response && error.response.data.detail
+          ? error.response.data.detail
+          : error.message,
+    });
+  }
+};
+
+export const deleteUsers = (id) => async (dispatch, getState) => {
+  try {
+    dispatch({
+      type: USER_DELETE_REQUEST,
+    });
+
+    const userInfoFromStorage = localStorage.getItem("userInfo")
+      ? JSON.parse(localStorage.getItem("userInfo"))
+      : null;
+
+    const config = {
+      headers: {
+        "Content-type": "application/json",
+        Authorization: `Bearer ${userInfoFromStorage.token}`,
+      },
+    };
+
+    const { data } = await axios.delete(`/api/users/delete/${id}`, config);
+
+    dispatch({
+      type: USER_DELETE_SUCCESS,
+      payload: data,
+    });
+  } catch (error) {
+    dispatch({
+      type: USER_DELETE_FAIL,
       payload:
         error.response && error.response.data.detail
           ? error.response.data.detail

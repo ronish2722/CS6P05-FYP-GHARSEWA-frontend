@@ -1,70 +1,88 @@
-import React from "react";
-import { Button, Form, Input, Select } from "antd";
+import React, { useState } from "react";
+import { Button, Form, Input } from "antd";
 
 function PostRequest() {
   const [form] = Form.useForm();
+  const { TextArea } = Input;
+  const [error, setError] = useState(null);
+
+  const handleSubmit = async (values) => {
+    try {
+      const userInfoFromStorage = localStorage.getItem("userInfo")
+        ? JSON.parse(localStorage.getItem("userInfo"))
+        : null;
+
+      const response = await fetch("/api/create-post/", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${userInfoFromStorage.token}`, // assuming you're using JWT authentication and the token is stored in local storage
+        },
+        body: JSON.stringify({
+          title: values.title,
+          body: values.body,
+        }),
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        setError(errorData.detail);
+      } else {
+        const postData = await response.json();
+        // Do something with the created post data
+        console.log(postData);
+      }
+    } catch (error) {
+      console.error(error);
+      setError("An error occurred while creating the post");
+    }
+  };
 
   return (
     <div>
       <Form
+        form={form}
+        onFinish={handleSubmit}
         style={{
           maxWidth: 600,
         }}
-        className="flex justify-between"
       >
         <Form.Item
-          name="Repair"
+          name="title"
+          label="Title"
           className="pt-[10px]"
           rules={[
             {
-              required: false,
+              required: true,
+              message: "Please enter a title",
             },
           ]}
         >
-          <Input placeholder="Search for a category" />
-        </Form.Item>
-        <Form.Item
-          name="Repair"
-          className="pt-[10px]"
-          rules={[
-            {
-              required: false,
-            },
-          ]}
-        >
-          <Input placeholder="Search for a category" />
-        </Form.Item>
-        <Form.Item
-          name="Repair"
-          className="pt-[10px]"
-          rules={[
-            {
-              required: false,
-            },
-          ]}
-        >
-          <Input placeholder="Search for a category" />
-        </Form.Item>
-        <Form.Item
-          name="Repair"
-          className="pt-[10px]"
-          rules={[
-            {
-              required: false,
-            },
-          ]}
-        >
-          <Input placeholder="Search for a category" />
-        </Form.Item>
-        <Form.Item>
-          <Button type="primary" htmlType="submit" className="bg-[#403D3A]">
-            Search
-          </Button>
+          <Input placeholder="Title" />
         </Form.Item>
 
+        <Form.Item
+          name="body"
+          label="Description"
+          rules={[
+            {
+              required: true,
+              message: "Please enter a description",
+            },
+          ]}
+        >
+          <TextArea rows={4} />
+        </Form.Item>
+
+        {error && <div style={{ color: "red" }}>{error}</div>}
+
         <Form.Item>
-          <Button type="primary" htmlType="submit" className="bg-[#403D3A]">
-            View all professionals
+          <Button
+            type="primary"
+            htmlType="submit"
+            className="bg-[#403D3A] w-[100px]"
+          >
+            Post
           </Button>
         </Form.Item>
       </Form>

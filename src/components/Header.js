@@ -44,11 +44,16 @@ const Header = () => {
           <p className="px-[30px] my-auto items-end" onClick={logoutHandler}>
             Logout
           </p>
-          {/* {userInfo && userInfo.isAdmin && (
+          {userInfo && userInfo.isAdmin && (
             <p className="px-[30px] my-auto items-end">
               <Link to="/admin/userlist">Users</Link>
             </p>
-          )} */}
+          )}
+          {userInfo && userInfo.isProfessional && (
+            <p className="px-[30px] my-auto items-end">
+              <Link to="/posts/">Requests</Link>
+            </p>
+          )}
 
           <button className="bg-slate-700 w-[120px] h-[40px] text-white rounded-[15px]">
             To-do List

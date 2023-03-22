@@ -2,7 +2,7 @@ import React from "react";
 
 const Footer = () => {
   return (
-    <div className="bg-[#403D3A] flex  justify-between p-[50px] text-white">
+    <div className="bg-[#403D3A] flex  justify-between p-[50px] text-white pl-[120px]">
       <div className="w-[50%] space-y-[10px]">
         <h1 className="font-bold text-[20px]">GharSewa</h1>
         <p className="w-[80%]">
