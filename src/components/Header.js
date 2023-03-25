@@ -57,10 +57,11 @@ const Header = () => {
           <p className="px-[30px] my-auto items-end">
             <Link to="/register-professional">Become a Professional</Link>
           </p>
-
-          <button className="bg-slate-700 w-[120px] h-[40px] text-white rounded-[15px]">
-            To-do List
-          </button>
+          <Link to="/todo/">
+            <button className="bg-slate-700 w-[120px] h-[40px] text-white rounded-[15px]">
+              To-do List
+            </button>
+          </Link>
         </div>
       </div>
     </div>

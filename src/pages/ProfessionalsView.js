@@ -10,8 +10,9 @@ import { Loading } from "../components/Loading";
 import Message from "../components/Message";
 import axios from "axios";
 import { useParams } from "react-router-dom";
+import { message } from "antd";
 
-function ProfessionalsView() {
+function ProfessionalsView({ history }) {
   const dispatch = useDispatch();
   const professionalDetail = useSelector((state) => state.professionalDetail);
   const { error, loading, professional } = professionalDetail;
@@ -20,6 +21,29 @@ function ProfessionalsView() {
   useEffect(() => {
     dispatch(listProfessionalsDetails(id));
   }, [dispatch]);
+
+  const handleBookClick = async () => {
+    try {
+      const userInfoFromStorage = localStorage.getItem("userInfo")
+        ? JSON.parse(localStorage.getItem("userInfo"))
+        : null;
+
+      const response = await axios.post(
+        `http://127.0.0.1:8000/api/book-professional/${id}/`,
+        null,
+        {
+          headers: {
+            Authorization: `Bearer ${userInfoFromStorage.token}`,
+          },
+        }
+      );
+      const { book_id } = response.data;
+      message.success(`Booking confirmed with ID: ${book_id}`);
+      // Redirect to a success page or show a success message
+    } catch (error) {
+      message.error(error.message);
+    }
+  };
 
   return (
     <div>
@@ -43,7 +67,11 @@ function ProfessionalsView() {
             <div className="bg-gray-200 w-[300px] border-2">
               <p>{professional.description}</p>
             </div>
-            <Button type="primary" className="bg-[#403D3A] w-[100px] h-[40px]">
+            <Button
+              type="primary"
+              className="bg-[#403D3A] w-[100px] h-[40px]"
+              onClick={handleBookClick}
+            >
               Book
             </Button>
           </div>
