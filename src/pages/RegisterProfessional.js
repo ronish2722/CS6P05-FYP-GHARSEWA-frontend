@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 
 const RegisterProfessional = () => {
@@ -8,6 +8,17 @@ const RegisterProfessional = () => {
   const [image, setImage] = useState(null);
   const [error, setError] = useState(null);
   const [success, setSuccess] = useState(false);
+  const [categories, setCategories] = useState([]);
+  const [selectedCategory, setSelectedCategory] = useState("");
+
+  useEffect(() => {
+    const fetchCategories = async () => {
+      const { data } = await axios.get("/api/categories/");
+      setCategories(data);
+      setSelectedCategory(data[0]?.name || "");
+    };
+    fetchCategories();
+  }, []);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -18,6 +29,7 @@ const RegisterProfessional = () => {
     formData.append("name", name);
     formData.append("location", location);
     formData.append("description", description);
+    formData.append("category", selectedCategory);
     formData.append("image", image);
     const userInfoFromStorage = localStorage.getItem("userInfo")
       ? JSON.parse(localStorage.getItem("userInfo"))
@@ -73,6 +85,19 @@ const RegisterProfessional = () => {
                 required
                 className="border-b-2 h-[40px]"
               />
+              <label htmlFor="category">Category:</label>
+              <select
+                id="category"
+                value={selectedCategory}
+                onChange={(e) => setSelectedCategory(e.target.value)}
+                className="border-b-2 h-[40px]"
+              >
+                {categories.map((category) => (
+                  <option key={category.id} value={category.name}>
+                    {category.name}
+                  </option>
+                ))}
+              </select>
               <label htmlFor="description">Description:</label>
               <textarea
                 id="description"
