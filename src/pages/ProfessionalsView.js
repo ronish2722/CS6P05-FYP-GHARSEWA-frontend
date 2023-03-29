@@ -11,6 +11,7 @@ import Message from "../components/Message";
 import axios from "axios";
 import { useParams } from "react-router-dom";
 import { message } from "antd";
+import Review from "../components/Review";
 
 function ProfessionalsView({ history }) {
   const dispatch = useDispatch();
@@ -56,7 +57,6 @@ function ProfessionalsView({ history }) {
       ) : error ? (
         <Message message={error} type="error" />
       ) : (
-        
         <div className="flex justify-between mx-[300px]">
           <Image src={professional.image} alt={professional.name} width={400} />
           <div>
@@ -78,7 +78,7 @@ function ProfessionalsView({ history }) {
           </div>
         </div>
       )}
-
+      <Review />
       <Footer />
     </div>
   );
