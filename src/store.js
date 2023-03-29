@@ -12,6 +12,7 @@ import {
 import {
   professionalDetailsReducers,
   professionalListReducers,
+  formReducer,
 } from "./reducer/professionalReducer";
 
 import { configureStore } from "@reduxjs/toolkit";
@@ -19,6 +20,7 @@ import { configureStore } from "@reduxjs/toolkit";
 const reducer = combineReducers({
   professionalList: professionalListReducers,
   professionalDetail: professionalDetailsReducers,
+  form: formReducer,
 
   userLogin: userLoginReducer,
   userRegister: userRegisterReducer,

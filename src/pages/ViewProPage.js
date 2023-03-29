@@ -1,64 +1,3 @@
-// import React, { useEffect } from "react";
-// import Message from "../components/Message";
-// import Professionals from "../components/Professionals";
-// import Header from "../components/Header";
-// import { Loading } from "../components/Loading";
-// import { useDispatch, useSelector } from "react-redux";
-// import { listProfessionals } from "../actions/professionalAction";
-// import { Link } from "react-router-dom";
-
-// const ViewProPage = () => {
-//   // const [professionals, setProfessionals] = useState([]);
-
-//   const dispatch = useDispatch();
-//   const professionalList = useSelector((state) => state.professionalList);
-
-//   const { error, loading, professionals } = professionalList;
-
-//   useEffect(() => {
-//     // async function fetchProfessionals() {
-//     //   const { data } = await axios.get("/api/professionals/");
-//     //   setProfessionals(data);
-//     // }
-
-//     // fetchProfessionals();
-
-//     dispatch(listProfessionals());
-//   }, []);
-//   const approvedProfessionals = professionals.filter(
-//     (professional) => professional.is_approved
-//   );
-
-//   return;
-//   return (
-//     <div>
-//       <Header />
-//       <h1 className="font-black text-3xl pl-[50px] pt-[10px]">Professionals</h1>
-//       {loading ? (
-//         <Loading />
-//       ) : error ? (
-//         <Message message={error} type="error" />
-//       ) : (
-//         <div className="flex ">
-//           <div className="w-1/4 font-black text-xl pl-[50px] pt-[10px] border-r-2">
-//             Filters
-//           </div>
-
-//           <div className="mx-[50px]">
-//             {professionals.map((professional) => (
-//               <div key={professional._id}>
-//                 <Professionals professional={professional} />
-//               </div>
-//             ))}
-//           </div>
-//         </div>
-//       )}
-//     </div>
-//   );
-// };
-
-// export default ViewProPage;
-
 import React, { useEffect } from "react";
 import Message from "../components/Message";
 import Professionals from "../components/Professionals";
@@ -67,20 +6,22 @@ import { Loading } from "../components/Loading";
 import { useDispatch, useSelector } from "react-redux";
 import { listProfessionals } from "../actions/professionalAction";
 import { Link } from "react-router-dom";
+import SearchWorker from "../components/SearchWorker";
 
 const ViewProPage = () => {
+  // const [professionals, setProfessionals] = useState([]);
+
   const dispatch = useDispatch();
   const professionalList = useSelector((state) => state.professionalList);
+
+  const formData = useSelector((state) => state.form.formData);
+
   const { error, loading, professionals } = professionalList;
 
   useEffect(() => {
     dispatch(listProfessionals());
   }, []);
-
-  // Filter the professionals by is_approved
-  const approvedProfessionals = professionals.filter(
-    (professional) => professional.is_approved
-  );
+  console.log(professionals);
 
   return (
     <div>
@@ -97,11 +38,17 @@ const ViewProPage = () => {
           </div>
 
           <div className="mx-[50px]">
-            {approvedProfessionals.map((professional) => (
-              <div key={professional._id}>
-                <Professionals professional={professional} />
-              </div>
-            ))}
+            {professionals
+              .filter(
+                (professional) =>
+                  professional.is_approved === true &&
+                  professional.category_name === formData.category_name
+              )
+              .map((professional) => (
+                <div key={professional._id}>
+                  <Professionals professional={professional} />
+                </div>
+              ))}
           </div>
         </div>
       )}

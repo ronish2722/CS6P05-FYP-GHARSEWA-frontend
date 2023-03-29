@@ -29,7 +29,7 @@ function Professionals({ professional }) {
             </Link>
 
             <p>{professional.location}</p>
-            <p>{professional.category}</p>
+            <p>{professional.category_name}</p>
             <p className="text-lime-500">{professional.rating}</p>
             <Rate allowHalf disabled value={professional.rating} />
             <div className="bg-gray-200 w-[300px] border-2">

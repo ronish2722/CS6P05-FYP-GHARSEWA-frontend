@@ -1,10 +1,24 @@
 import { Button, Form, Input, Select } from "antd";
-import { Link } from "react-router-dom";
-
-import ViewProPage from "../pages/ViewProPage";
+import { Link, useNavigate } from "react-router-dom";
+import React, { useState } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { setFormData } from "../actions/professionalAction";
 
 const SearchWorker = () => {
-  const [form] = Form.useForm();
+  // const [formData, setFormData] = useState({});
+
+  // const onFinish = (values) => {
+  //   setFormData(values);
+  //   console.log(values);
+  // };
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  const onFinish = (values) => {
+    dispatch(setFormData(values));
+    console.log(values);
+    navigate("/viewpro");
+  };
 
   return (
     <div>
@@ -12,10 +26,11 @@ const SearchWorker = () => {
         style={{
           maxWidth: 600,
         }}
+        onFinish={onFinish}
       >
         <div className="flex">
           <Form.Item
-            name="Search"
+            name="category_name"
             className="pt-[10px] w-5/6"
             rules={[
               {
@@ -25,6 +40,7 @@ const SearchWorker = () => {
           >
             <Input placeholder="Search for a category" />
           </Form.Item>
+
           <Form.Item className=" pt-[10px] pl-[10px]">
             <Button
               type="primary"

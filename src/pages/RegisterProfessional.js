@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import { message } from "antd";
+import { useNavigate } from "react-router-dom";
 
 const RegisterProfessional = () => {
   const [name, setName] = useState("");
@@ -10,7 +12,7 @@ const RegisterProfessional = () => {
   const [success, setSuccess] = useState(false);
   const [categories, setCategories] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState("");
-
+  const navigate = useNavigate();
   useEffect(() => {
     const fetchCategories = async () => {
       const { data } = await axios.get("/api/categories/");
@@ -46,6 +48,8 @@ const RegisterProfessional = () => {
         }
       );
       setSuccess(true);
+      message.success("Your registration request has been sent");
+      navigate("/");
     } catch (err) {
       setError(err.response.data.detail);
     }

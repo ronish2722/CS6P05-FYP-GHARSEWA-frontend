@@ -55,7 +55,8 @@ function ProfessionalsView({ history }) {
         <Loading />
       ) : error ? (
         <Message message={error} type="error" />
-      ) : professional.is_approved ? (
+      ) : (
+        
         <div className="flex justify-between mx-[300px]">
           <Image src={professional.image} alt={professional.name} width={400} />
           <div>
@@ -76,8 +77,6 @@ function ProfessionalsView({ history }) {
             </Button>
           </div>
         </div>
-      ) : (
-        <div></div>
       )}
 
       <Footer />
