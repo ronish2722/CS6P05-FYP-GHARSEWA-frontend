@@ -12,8 +12,13 @@ import axios from "axios";
 import { useParams } from "react-router-dom";
 import { message } from "antd";
 import Review from "../components/Review";
+import GetReviews from "../components/GetReviews";
+import ReviewsSummary from "../components/ReviewsSummary";
 
-function ProfessionalsView({ history }) {
+function ProfessionalsView() {
+  const [reviews, setReviews] = useState([]);
+  const [averageRating, setAverageRating] = useState(0);
+
   const dispatch = useDispatch();
   const professionalDetail = useSelector((state) => state.professionalDetail);
   const { error, loading, professional } = professionalDetail;
@@ -22,6 +27,27 @@ function ProfessionalsView({ history }) {
   useEffect(() => {
     dispatch(listProfessionalsDetails(id));
   }, [dispatch]);
+
+  useEffect(() => {
+    const fetchReviews = async () => {
+      try {
+        const response = await axios.get(
+          `http://127.0.0.1:8000/api/review/${id}/`
+        );
+        setReviews(response.data);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
+    fetchReviews();
+  }, []);
+
+  useEffect(() => {
+    const sum = reviews.reduce((acc, review) => acc + review.rating, 0);
+    const average = sum / reviews.length || 0;
+    setAverageRating(average.toFixed(1));
+  }, [reviews]);
 
   const handleBookClick = async () => {
     try {
@@ -59,12 +85,13 @@ function ProfessionalsView({ history }) {
       ) : (
         <div className="flex justify-between mx-[300px]">
           <Image src={professional.image} alt={professional.name} width={400} />
-          <div>
+          <div className="p-[10px]">
             <p className="text-black text-3xl">{professional.name}</p>
             <p>{professional.location}</p>
-            <p>{professional.category}</p>
-            <p className="text-lime-500">{professional.rating}</p>
-            <Rate allowHalf disabled value={professional.rating} />
+            <p>{professional.category_name}</p>
+            <p className="text-lime-500">{averageRating}</p>
+            <Rate allowHalf disabled value={averageRating} /> by&nbsp;
+            {reviews.length} users
             <div className="bg-gray-200 w-[300px] border-2">
               <p>{professional.description}</p>
             </div>
@@ -79,6 +106,7 @@ function ProfessionalsView({ history }) {
         </div>
       )}
       <Review />
+      <GetReviews />
       <Footer />
     </div>
   );

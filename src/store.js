@@ -15,6 +15,8 @@ import {
   formReducer,
 } from "./reducer/professionalReducer";
 
+import reviewsReducer from "./reducer/reviewsReducer";
+
 import { configureStore } from "@reduxjs/toolkit";
 
 const reducer = combineReducers({
@@ -27,6 +29,7 @@ const reducer = combineReducers({
   userDetails: userDetailsReducer,
   userList: userListReducer,
   userDelete: userDeleteReducer,
+  reviews: reviewsReducer,
 });
 
 const userInfoFromStorage = localStorage.getItem("userInfo")
@@ -51,7 +54,7 @@ const store = configureStore({
   middleware: middleware,
   devTools: process.env.NODE_ENV !== "production",
   // enhancers: [composeWithDevTools()],
-  initialState: initialState, // declare the initial state here
+  preloadedState: initialState, // declare the initial state here
 });
 
 export default store;

@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import { listProfessionalsDetails } from "../actions/professionalAction";
 
-const Review = ({ professionalId }) => {
+const Review = () => {
   const [rating, setRating] = useState("");
   const [comment, setComment] = useState("");
   const [error, setError] = useState(null);

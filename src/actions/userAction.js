@@ -124,8 +124,8 @@ export const getUserDetails = (id) => async (dispatch, getState) => {
       },
     };
 
-    const { data } = await axios.get(
-      `/api/users/${id}/`,
+    const { data } = await axios.put(
+      `http://127.0.0.1:8000/api/users/${id}/update`,
 
       config
     );
