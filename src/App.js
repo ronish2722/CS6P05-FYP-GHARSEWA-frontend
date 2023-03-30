@@ -9,6 +9,7 @@ import RegisterProfessional from "./pages/RegisterProfessional";
 import ProfilePage from "./pages/ProfilePage";
 import ViewProPage from "./pages/ViewProPage";
 import ProfessionalsView from "./pages/ProfessionalsView";
+import AllProfessionals from "./pages/AllProfessionals";
 import UserListPage from "./pages/UserListPage";
 import UserUpdateScreen from "./pages/UserUpdateScreen";
 import TodoList from "./pages/TodoList";
@@ -34,6 +35,8 @@ function App() {
           />
           <Route element={<ProfilePage />} path="/profile" />
           <Route element={<ViewProPage />} path="/viewpro" />
+
+          <Route element={<AllProfessionals />} path="/professionals" />
           <Route element={<TodoList />} path="/todo/" />
 
           <Route element={<PostsList />} path="/posts/" />

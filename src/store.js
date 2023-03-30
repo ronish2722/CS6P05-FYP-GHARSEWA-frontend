@@ -15,7 +15,7 @@ import {
   formReducer,
 } from "./reducer/professionalReducer";
 
-import reviewsReducer from "./reducer/reviewsReducer";
+import { reviewsReducer, reviewListAllReducer } from "./reducer/reviewsReducer";
 
 import { configureStore } from "@reduxjs/toolkit";
 
@@ -30,6 +30,7 @@ const reducer = combineReducers({
   userList: userListReducer,
   userDelete: userDeleteReducer,
   reviews: reviewsReducer,
+  reviewListAll: reviewListAllReducer,
 });
 
 const userInfoFromStorage = localStorage.getItem("userInfo")

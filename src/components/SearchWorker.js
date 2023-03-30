@@ -52,7 +52,7 @@ const SearchWorker = () => {
           </Form.Item>
         </div>
         <Form.Item>
-          <Link to="/viewpro">
+          <Link to="/professionals">
             <Button type="primary" htmlType="submit" className="bg-[#403D3A]">
               View all professionals
             </Button>

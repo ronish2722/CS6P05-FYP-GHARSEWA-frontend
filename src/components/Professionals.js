@@ -1,36 +1,26 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import { Card, Space, Rate, Image } from "antd";
 import { Link } from "react-router-dom";
-import axios from "axios";
 import Header from "./Header";
-import { useParams } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { listAllReviews } from "../actions/reviewsAction";
 
 function Professionals({ professional }) {
-  const [reviews, setReviews] = useState([]);
-  const [averageRating, setAverageRating] = useState(0);
-
-  const { id } = useParams();
+  const dispatch = useDispatch();
+  const { reviews } = useSelector((state) => state.reviewListAll);
 
   useEffect(() => {
-    const fetchReviews = async () => {
-      try {
-        const response = await axios.get(
-          `http://127.0.0.1:8000/api/review/${id}/`
-        );
-        setReviews(response.data);
-      } catch (error) {
-        console.log(error);
-      }
-    };
+    dispatch(listAllReviews());
+  }, [dispatch]);
 
-    fetchReviews();
-  }, []);
-
-  useEffect(() => {
-    const sum = reviews.reduce((acc, review) => acc + review.rating, 0);
-    const average = sum / reviews.length || 0;
-    setAverageRating(average.toFixed(1));
-  }, [reviews]);
+  const professionalReviews = reviews.filter(
+    (review) => review.professional === professional._id
+  );
+  const sum = professionalReviews.reduce(
+    (acc, review) => acc + review.rating,
+    0
+  );
+  const averageRating = sum / professionalReviews.length || 0;
 
   return (
     <div>
@@ -43,12 +33,6 @@ function Professionals({ professional }) {
                 src={professional.image}
                 alt={professional.name}
               />
-              {/* <Card.Img src={professional.image} /> */}
-              {/* <img
-            alt="example"
-            src={require("../image/hari.jpg")}
-            className="w-1/6"
-          /> */}
             </Link>
           </div>
           <div className="mx-[30px]">
@@ -58,8 +42,8 @@ function Professionals({ professional }) {
             <p>{professional.location}</p>
             <p>{professional.category_name}</p>
             <p className="text-lime-500">{averageRating}</p>
-            <Rate allowHalf disabled value={averageRating} /> by&nbsp;
-            {reviews.length} users
+            <Rate allowHalf disabled value={averageRating} /> by{" "}
+            {professionalReviews.length} users
             <div className="bg-gray-200 w-[300px] border-2">
               <p>{professional.description}</p>
             </div>

@@ -3,6 +3,7 @@ import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import { listProfessionalsDetails } from "../actions/professionalAction";
+import { Space, Rate } from "antd";
 
 const Review = () => {
   const [rating, setRating] = useState("");
@@ -16,8 +17,8 @@ const Review = () => {
     dispatch(listProfessionalsDetails(id));
   }, [dispatch]);
 
-  const handleRatingChange = (event) => {
-    setRating(event.target.value);
+  const handleRatingChange = (value) => {
+    setRating(value);
   };
 
   const handleCommentChange = (event) => {
@@ -50,10 +51,12 @@ const Review = () => {
   return (
     <form onSubmit={handleSubmit}>
       {error && <div>{error}</div>}
-      <label>
-        Rating:
-        <input type="number" value={rating} onChange={handleRatingChange} />
-      </label>
+
+      <Space>
+        <span>Rating</span>
+        <Rate value={rating} onChange={handleRatingChange} allowClear={false} />
+      </Space>
+
       <label>
         Comment:
         <textarea value={comment} onChange={handleCommentChange} />

@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import professionals from "../professionals";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { Image, Rate, Button } from "antd";
@@ -13,41 +12,44 @@ import { useParams } from "react-router-dom";
 import { message } from "antd";
 import Review from "../components/Review";
 import GetReviews from "../components/GetReviews";
-import ReviewsSummary from "../components/ReviewsSummary";
+import { listReviews } from "../actions/reviewsAction";
 
 function ProfessionalsView() {
-  const [reviews, setReviews] = useState([]);
-  const [averageRating, setAverageRating] = useState(0);
+  // const [reviews, setReviews] = useState([]);
+  // const [averageRating, setAverageRating] = useState(0);
 
   const dispatch = useDispatch();
   const professionalDetail = useSelector((state) => state.professionalDetail);
   const { error, loading, professional } = professionalDetail;
   const { id } = useParams();
+  const reviewsState = useSelector((state) => state.reviews);
+  const { reviews, averageRating } = reviewsState;
 
   useEffect(() => {
     dispatch(listProfessionalsDetails(id));
+    dispatch(listReviews(id));
   }, [dispatch]);
 
-  useEffect(() => {
-    const fetchReviews = async () => {
-      try {
-        const response = await axios.get(
-          `http://127.0.0.1:8000/api/review/${id}/`
-        );
-        setReviews(response.data);
-      } catch (error) {
-        console.log(error);
-      }
-    };
+  // useEffect(() => {
+  //   const fetchReviews = async () => {
+  //     try {
+  //       const response = await axios.get(
+  //         `http://127.0.0.1:8000/api/review/${id}/`
+  //       );
+  //       setReviews(response.data);
+  //     } catch (error) {
+  //       console.log(error);
+  //     }
+  //   };
 
-    fetchReviews();
-  }, []);
+  //   fetchReviews();
+  // }, []);
 
-  useEffect(() => {
-    const sum = reviews.reduce((acc, review) => acc + review.rating, 0);
-    const average = sum / reviews.length || 0;
-    setAverageRating(average.toFixed(1));
-  }, [reviews]);
+  // useEffect(() => {
+  //   const sum = reviews.reduce((acc, review) => acc + review.rating, 0);
+  //   const average = sum / reviews.length || 0;
+  //   setAverageRating(average.toFixed(1));
+  // }, [reviews]);
 
   const handleBookClick = async () => {
     try {
@@ -75,7 +77,7 @@ function ProfessionalsView() {
   return (
     <div>
       <Header />
-      <Link to="/viewpro" className="btn btn-light my-3">
+      <Link to="/professionals" className="btn btn-light my-3">
         Go back
       </Link>
       {loading ? (
