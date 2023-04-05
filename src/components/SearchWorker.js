@@ -29,16 +29,8 @@ const SearchWorker = () => {
         onFinish={onFinish}
       >
         <div className="flex">
-          <Form.Item
-            name="category_name"
-            className="pt-[10px] w-5/6"
-            rules={[
-              {
-                required: false,
-              },
-            ]}
-          >
-            <Input placeholder="Search for a category" />
+          <Form.Item name="category_name" className="pt-[10px] w-5/6">
+            <Input required placeholder="Search for a category" />
           </Form.Item>
 
           <Form.Item className=" pt-[10px] pl-[10px]">

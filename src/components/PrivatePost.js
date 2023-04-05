@@ -53,7 +53,7 @@ function PrivatePost() {
       console.log(error);
     }
   };
-
+  console.log(bookings);
   return (
     <div>
       {bookings.map((booking) => (

@@ -13,6 +13,8 @@ function HomepageForm() {
       <Card className="w-full" bordered={false}>
         <Tabs
           defaultActiveKey="1"
+          centered
+          size="large"
           type="card"
           tabBarStyle={{ marginBottom: 0 }}
           items={items}

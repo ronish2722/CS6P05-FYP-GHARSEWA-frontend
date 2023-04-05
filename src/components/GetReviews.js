@@ -6,7 +6,7 @@ import { Rate } from "antd";
 
 const GetReviews = () => {
   const [reviews, setReviews] = useState([]);
-  const professionalDetail = useSelector((state) => state.professionalDetail);
+  // const professionalDetail = useSelector((state) => state.professionalDetail);
   const { id } = useParams();
   console.log(reviews);
 
@@ -26,11 +26,11 @@ const GetReviews = () => {
   }, []);
 
   return (
-    <div>
-      <h2>Reviews:</h2>
+    <div className="px-[100px]">
+      <h2 className="font-bold">Reviews:</h2>
       {reviews.map((review) => (
-        <div key={review.id}>
-          <p>{review.user}</p>
+        <div key={review._id} className="py-[10px]">
+          <p className="font-bold">{review.user}</p>
           <Rate allowHalf disabled value={review.rating} />
 
           <p>Comment: {review.comment}</p>

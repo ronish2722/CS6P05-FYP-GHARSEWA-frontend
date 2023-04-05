@@ -88,13 +88,19 @@ function ProfessionalsView() {
         <div className="flex justify-between mx-[300px]">
           <Image src={professional.image} alt={professional.name} width={400} />
           <div className="p-[10px]">
-            <p className="text-black text-3xl">{professional.name}</p>
-            <p>{professional.location}</p>
-            <p>{professional.category_name}</p>
+            <p className="text-bold text-3xl">{professional.name}</p>
+            <p className="mb-2">{professional.location}</p>
+            <p className="mb-2">{professional.category_name}</p>
             <p className="text-lime-500">{averageRating}</p>
-            <Rate allowHalf disabled value={averageRating} /> by&nbsp;
+            <Rate
+              allowHalf
+              disabled
+              value={averageRating}
+              className="mb-2"
+            />{" "}
+            by&nbsp;
             {reviews.length} users
-            <div className="bg-gray-200 w-[300px] border-2">
+            <div className="bg-gray-200 w-[300px] border-2 mb-2">
               <p>{professional.description}</p>
             </div>
             <Button

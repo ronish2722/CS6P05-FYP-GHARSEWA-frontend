@@ -59,45 +59,53 @@ function TodoList() {
 
   return (
     <div>
-      <Form onFinish={handleSubmit}>
+      <Form onFinish={handleSubmit} className="mx-[100px] border">
         <Form.Item
           name="title"
+          label="Title"
           rules={[
             {
               required: true,
               message: "Please input a title",
             },
           ]}
+          className="p-[20px] px-[100px]"
         >
           <Input placeholder="Title" />
         </Form.Item>
 
         <Form.Item
           name="description"
+          label="description"
           rules={[
             {
               required: true,
               message: "Please input a description",
             },
           ]}
+          className="px-[100px]"
         >
           <Input.TextArea placeholder="Description" />
         </Form.Item>
 
-        <Button type="primary" htmlType="submit">
+        <Button
+          type="primary"
+          htmlType="submit"
+          className="bg-slate-700 text-white mx-[100px]"
+        >
           Add
         </Button>
       </Form>
 
-      <table>
-        <thead>
+      <table className="w-full border p-[100px]">
+        <thead className="bg-slate-700 text-white">
           <tr>
             <th>Title</th>
             <th>Description</th>
             <th>Completed</th>
           </tr>
         </thead>
-        <tbody>
+        <tbody className="">
           {items.map((item) => (
             <tr key={item.id}>
               <td>{item.title}</td>

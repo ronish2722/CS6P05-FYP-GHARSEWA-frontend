@@ -1,5 +1,7 @@
 import React, { useState } from "react";
-import { Button, Form, Input } from "antd";
+import { Button, Dropdown, Form, Input, TimePicker, Space } from "antd";
+import { DownOutlined } from "@ant-design/icons";
+import moment from "moment";
 
 function PostRequest() {
   const [form] = Form.useForm();
@@ -12,14 +14,18 @@ function PostRequest() {
         ? JSON.parse(localStorage.getItem("userInfo"))
         : null;
 
-      const response = await fetch("/api/create-post/", {
+      const response = await fetch("http://127.0.0.1:8000/api/create-post/", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${userInfoFromStorage.token}`, // assuming you're using JWT authentication and the token is stored in local storage
         },
+
         body: JSON.stringify({
           title: values.title,
+          locations: values.locations,
+          categories: values.categories,
+          start_time: values.start_time.format("HH:mm"),
           body: values.body,
         }),
       });
@@ -59,6 +65,51 @@ function PostRequest() {
           ]}
         >
           <Input placeholder="Title" />
+        </Form.Item>
+        <Form.Item
+          name="locations"
+          label="Location"
+          className="pt-[10px]"
+          rules={[
+            {
+              required: true,
+              message: "Please enter a Location",
+            },
+          ]}
+        >
+          <Input placeholder="Location" />
+        </Form.Item>
+        <Form.Item
+          name="categories"
+          label="Category"
+          className="pt-[10px]"
+          rules={[
+            {
+              required: true,
+              message: "Please enter a Category",
+            },
+          ]}
+        >
+          <Input placeholder="Category" />
+          {/* <Dropdown menu={"1"}>
+            <Space>
+              Categories
+              <DownOutlined />
+            </Space>
+          </Dropdown> */}
+        </Form.Item>
+        <Form.Item
+          name="start_time"
+          label="Time"
+          className="pt-[10px]"
+          rules={[
+            {
+              required: true,
+              message: "Please enter a Time",
+            },
+          ]}
+        >
+          <TimePicker format="h:mm" />
         </Form.Item>
 
         <Form.Item

@@ -24,7 +24,7 @@ const ViewProPage = () => {
   console.log(professionals);
 
   return (
-    <div>
+    <div className="">
       <Header />
       <h1 className="font-black text-3xl pl-[50px] pt-[10px]">Professionals</h1>
       {loading ? (
@@ -32,7 +32,7 @@ const ViewProPage = () => {
       ) : error ? (
         <Message message={error} type="error" />
       ) : (
-        <div className="flex ">
+        <div className="flex">
           <div className="w-1/4 font-black text-xl pl-[50px] pt-[10px] border-r-2">
             Filters
           </div>

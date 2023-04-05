@@ -1,9 +1,10 @@
 import React, { useEffect } from "react";
-import { Card, Space, Rate, Image } from "antd";
+import { Card, Space, Rate, Image, Button, Dropdown } from "antd";
 import { Link } from "react-router-dom";
 import Header from "./Header";
 import { useDispatch, useSelector } from "react-redux";
 import { listAllReviews } from "../actions/reviewsAction";
+import { DownOutlined } from "@ant-design/icons";
 
 function Professionals({ professional }) {
   const dispatch = useDispatch();
@@ -24,12 +25,12 @@ function Professionals({ professional }) {
 
   return (
     <div>
-      <Card className="my-3 p-3 rounded mx-[20px] w-full">
-        <div className="flex">
+      <Card className="my-3 p-3 rounded-[20px] mx-[20px] w-full min-h-[200px]">
+        <div className="flex justify-between">
           <div className="">
             <Link to={`/professionals/${professional._id}`}>
               <Image
-                width={200}
+                width={100}
                 src={professional.image}
                 alt={professional.name}
               />
@@ -37,16 +38,18 @@ function Professionals({ professional }) {
           </div>
           <div className="mx-[30px]">
             <Link to={`/professionals/${professional._id}`}>
-              <p className="font-black text-xl">{professional.name}</p>
+              <p className="text-bold text-xl">{professional.name}</p>
             </Link>
             <p>{professional.location}</p>
             <p>{professional.category_name}</p>
-            <p className="text-lime-500">{averageRating}</p>
+          </div>
+          <div>
             <Rate allowHalf disabled value={averageRating} /> by{" "}
             {professionalReviews.length} users
-            <div className="bg-gray-200 w-[300px] border-2">
+            <div className="w-[300px] text-inherit">
               <p>{professional.description}</p>
             </div>
+            <Button className="flex justify-end">View Details</Button>
           </div>
         </div>
       </Card>

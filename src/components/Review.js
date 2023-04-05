@@ -3,9 +3,10 @@ import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import { listProfessionalsDetails } from "../actions/professionalAction";
-import { Space, Rate } from "antd";
+import { Space, Rate, Card, Button, Input } from "antd";
 
 const Review = () => {
+  const { TextArea } = Input;
   const [rating, setRating] = useState("");
   const [comment, setComment] = useState("");
   const [error, setError] = useState(null);
@@ -52,16 +53,30 @@ const Review = () => {
     <form onSubmit={handleSubmit}>
       {error && <div>{error}</div>}
 
-      <Space>
-        <span>Rating</span>
-        <Rate value={rating} onChange={handleRatingChange} allowClear={false} />
-      </Space>
+      <div className="px-[100px]">
+        <div>
+          <p>Rating</p>
+          <Rate
+            value={rating}
+            onChange={handleRatingChange}
+            allowClear={false}
+          />
+        </div>
 
-      <label>
-        Comment:
-        <textarea value={comment} onChange={handleCommentChange} />
-      </label>
-      <button type="submit">Submit Review</button>
+        <div className="py-[20px]">
+          <label>
+            Comment:
+            <TextArea rows={2} value={comment} onChange={handleCommentChange} />
+          </label>
+        </div>
+
+        <button
+          className=" px-[50px] py-[10px] rounded-[10px] bg-slate-700 text-white"
+          type="submit"
+        >
+          Submit
+        </button>
+      </div>
     </form>
   );
 };

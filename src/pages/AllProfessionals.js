@@ -24,20 +24,23 @@ const AllProfessionals = () => {
   console.log(professionals);
 
   return (
-    <div>
+    <div className="">
       <Header />
-      <h1 className="font-black text-3xl pl-[50px] pt-[10px]">Professionals</h1>
+
       {loading ? (
         <Loading />
       ) : error ? (
         <Message message={error} type="error" />
       ) : (
-        <div className="flex ">
-          <div className="w-1/4 font-black text-xl pl-[50px] pt-[10px] border-r-2">
+        <div className="">
+          <p className="text-black font-black text-3xl  p-[30px] text-center">
+            Professionals
+          </p>
+          {/* <div className="w-1/4 font-black text-xl pl-[50px] pt-[10px] border-r-2">
             Filters
-          </div>
+          </div> */}
 
-          <div className="mx-[50px]">
+          <div className="mx-[250px]">
             {professionals
               .filter((professional) => professional.is_approved === true)
               .map((professional) => (
