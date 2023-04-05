@@ -17,6 +17,12 @@ import {
 
 import { reviewsReducer, reviewListAllReducer } from "./reducer/reviewsReducer";
 
+import {
+  bookProfessionalReducer,
+  cancelBookingReducer,
+  getUserBookingsReducer,
+} from "./reducer/bookReducer";
+
 import { configureStore } from "@reduxjs/toolkit";
 
 const reducer = combineReducers({
@@ -31,6 +37,10 @@ const reducer = combineReducers({
   userDelete: userDeleteReducer,
   reviews: reviewsReducer,
   reviewListAll: reviewListAllReducer,
+
+  bookProfessional: bookProfessionalReducer,
+  cancelBooking: cancelBookingReducer,
+  getUserBookings: getUserBookingsReducer,
 });
 
 const userInfoFromStorage = localStorage.getItem("userInfo")

@@ -15,8 +15,9 @@ import GetReviews from "../components/GetReviews";
 import { listReviews } from "../actions/reviewsAction";
 
 function ProfessionalsView() {
-  // const [reviews, setReviews] = useState([]);
-  // const [averageRating, setAverageRating] = useState(0);
+  const [IsBooked, setIsBooked] = useState(false);
+  const [bookId, setBookId] = useState(null); // Define bookId in the state
+  const [bookings, setBookings] = useState([]);
 
   const dispatch = useDispatch();
   const professionalDetail = useSelector((state) => state.professionalDetail);
@@ -24,32 +25,52 @@ function ProfessionalsView() {
   const { id } = useParams();
   const reviewsState = useSelector((state) => state.reviews);
   const { reviews, averageRating } = reviewsState;
+  const userInfoFromStorage = localStorage.getItem("userInfo")
+    ? JSON.parse(localStorage.getItem("userInfo"))
+    : null;
 
   useEffect(() => {
     dispatch(listProfessionalsDetails(id));
     dispatch(listReviews(id));
   }, [dispatch]);
 
-  // useEffect(() => {
-  //   const fetchReviews = async () => {
-  //     try {
-  //       const response = await axios.get(
-  //         `http://127.0.0.1:8000/api/review/${id}/`
-  //       );
-  //       setReviews(response.data);
-  //     } catch (error) {
-  //       console.log(error);
-  //     }
-  //   };
+  useEffect(() => {
+    const checkBookingStatus = async () => {
+      if (userInfoFromStorage) {
+        try {
+          const response = await axios.get(
+            `http://127.0.0.1:8000/api/view-book/`,
+            {
+              headers: {
+                Authorization: `Bearer ${userInfoFromStorage.token}`,
+              },
+            }
+          );
+          setIsBooked(true);
+        } catch (error) {
+          setIsBooked(false);
+        }
+      }
+    };
 
-  //   fetchReviews();
-  // }, []);
+    checkBookingStatus();
+  }, [id, userInfoFromStorage]);
 
-  // useEffect(() => {
-  //   const sum = reviews.reduce((acc, review) => acc + review.rating, 0);
-  //   const average = sum / reviews.length || 0;
-  //   setAverageRating(average.toFixed(1));
-  // }, [reviews]);
+  useEffect(() => {
+    const fetchBookings = async () => {
+      const response = await axios.get(
+        `http://127.0.0.1:8000/api/get-user-bookings/`,
+        {
+          headers: {
+            Authorization: `Bearer ${userInfoFromStorage.token}`,
+          },
+        }
+      );
+      setBookings(response.data);
+    };
+
+    fetchBookings();
+  }, []);
 
   const handleBookClick = async () => {
     try {
@@ -68,7 +89,31 @@ function ProfessionalsView() {
       );
       const { book_id } = response.data;
       message.success(`Booking confirmed with ID: ${book_id}`);
+      setIsBooked(true);
+      setBookId(book_id); // Set bookId in the state
       // Redirect to a success page or show a success message
+    } catch (error) {
+      message.error(error.message);
+    }
+  };
+
+  const handleCancel = async (id) => {
+    try {
+      const userInfoFromStorage = localStorage.getItem("userInfo")
+        ? JSON.parse(localStorage.getItem("userInfo"))
+        : null;
+
+      const response = await axios.delete(
+        `http://127.0.0.1:8000/api/cancel-booking/${id}/`,
+        {
+          headers: {
+            Authorization: `Bearer ${userInfoFromStorage.token}`,
+          },
+        }
+      );
+      message.success(`Booking cancelled successfully`);
+      setIsBooked(false);
+      setBookId(null); // Reset bookId in the state
     } catch (error) {
       message.error(error.message);
     }
@@ -98,18 +143,28 @@ function ProfessionalsView() {
               value={averageRating}
               className="mb-2"
             />{" "}
-            by&nbsp;
+            by
             {reviews.length} users
             <div className="bg-gray-200 w-[300px] border-2 mb-2">
               <p>{professional.description}</p>
             </div>
-            <Button
-              type="primary"
-              className="bg-[#403D3A] w-[100px] h-[40px]"
-              onClick={handleBookClick}
-            >
-              Book
-            </Button>
+            {IsBooked ? (
+              <Button
+                type="primary"
+                className="bg-red-500 w-[100px] h-[40px]"
+                onClick={() => handleCancel(bookId)}
+              >
+                Cancel
+              </Button>
+            ) : (
+              <Button
+                type="primary"
+                className="bg-[#403D3A] w-[100px] h-[40px]"
+                onClick={handleBookClick}
+              >
+                Book
+              </Button>
+            )}
           </div>
         </div>
       )}

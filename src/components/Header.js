@@ -21,7 +21,7 @@ const Header = () => {
   };
 
   return (
-    <div>
+    <div className="bg-white">
       {/* <div>
         <Link to="/">Home</Link>
         <span>|</span>

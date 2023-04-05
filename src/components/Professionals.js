@@ -25,7 +25,7 @@ function Professionals({ professional }) {
 
   return (
     <div>
-      <Card className="my-3 p-3 rounded-[20px] mx-[20px] w-full min-h-[200px]">
+      <Card className="my-3 p-3 rounded-[20px] mx-[20px] w-full h-[200px]">
         <div className="flex justify-between">
           <div className="">
             <Link to={`/professionals/${professional._id}`}>
