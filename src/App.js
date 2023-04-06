@@ -16,6 +16,7 @@ import TodoList from "./pages/TodoList";
 import PostsList from "./pages/ViewPost";
 import PrivateRoutes from "./utils/PrivateRoute";
 import Header from "./components/Header";
+import PasswordResetConfirmPage from "./pages/PasswordResetconfirmPage";
 
 function App() {
   return (
@@ -40,6 +41,10 @@ function App() {
           <Route element={<TodoList />} path="/todo/" />
 
           <Route element={<PostsList />} path="/posts/" />
+          <Route
+            element={<PasswordResetConfirmPage />}
+            path="/password-reset-confirm/:uidb64/:token"
+          />
           <Route element={<ProfessionalsView />} path="/professionals/:id" />
           <Route element={<UserListPage />} path="/admin/userlist" />
           <Route element={<UserUpdateScreen />} path="/admin/user/:id/edit" />

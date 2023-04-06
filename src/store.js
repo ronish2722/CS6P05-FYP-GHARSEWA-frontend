@@ -7,6 +7,7 @@ import {
   userDetailsReducer,
   userListReducer,
   userDeleteReducer,
+  passwordResetReducer,
 } from "./reducer/userReducer";
 
 import {
@@ -41,6 +42,7 @@ const reducer = combineReducers({
   bookProfessional: bookProfessionalReducer,
   cancelBooking: cancelBookingReducer,
   getUserBookings: getUserBookingsReducer,
+  passwordReset: passwordResetReducer,
 });
 
 const userInfoFromStorage = localStorage.getItem("userInfo")

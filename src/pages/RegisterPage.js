@@ -32,13 +32,13 @@ const RegisterPage = (location, history) => {
   // }, [history, userInfo, redirect]);
   useEffect(() => {
     if (userInfo) {
-      navigate(redirect);
+      navigate("/");
     }
     if (localStorage.getItem("registerMessage")) {
       setRegisterMessage(localStorage.getItem("registerMessage"));
       localStorage.removeItem("registerMessage");
     }
-  }, [navigate, userInfo, redirect]);
+  }, [navigate, userInfo]);
 
   const submitHandler = (e) => {
     e.preventDefault();
@@ -117,9 +117,7 @@ const RegisterPage = (location, history) => {
         <p className="text-center text-zinc-400 font-thin">
           Have an Account?
           <u>
-            <Link to={redirect ? ` /login?redirect=${redirect}` : "/login"}>
-              Sign In
-            </Link>
+            <Link to={"/login"}>Sign In</Link>
           </u>
         </p>
       </div>

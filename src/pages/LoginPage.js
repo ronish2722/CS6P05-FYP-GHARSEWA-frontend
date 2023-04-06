@@ -2,7 +2,8 @@ import React, { useContext, useState, useEffect } from "react";
 import { Link, redirect, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import AuthContext from "../context/AuthContext";
-import { login } from "../actions/userAction";
+import { login, resetPassword } from "../actions/userAction";
+import { Button } from "antd";
 
 const LoginPage = (location, history) => {
   const [email, setEmail] = useState("");
@@ -15,6 +16,13 @@ const LoginPage = (location, history) => {
   const redirect = location.search ? location.search.split("=")[1] : "/";
 
   const userLogin = useSelector((state) => state.userLogin);
+
+  const passwordResetState = useSelector((state) => state.passwordReset);
+  const {
+    loading: resetLoading,
+    error: resetError,
+    success: resetSuccess,
+  } = passwordResetState;
 
   const { error, loading, userInfo } = userLogin;
 
@@ -31,6 +39,14 @@ const LoginPage = (location, history) => {
     dispatch(login(email, password));
   };
 
+  const resetPasswordHandler = () => {
+    if (!email) {
+      // show error message for empty email field
+      alert("Please enter your email address");
+      return;
+    }
+    dispatch(resetPassword(email));
+  };
   return (
     <div className="flex justify-between">
       <img
@@ -70,7 +86,7 @@ const LoginPage = (location, history) => {
           {/* <form onSubmit={(e) => loginUser(e)}> */}
           <form onSubmit={submitHandler}>
             <div className="flex flex-col p-[20px] space-y-[20px]">
-              <label>Username</label>
+              <label>Email</label>
               <input
                 type="text"
                 name="username"
@@ -88,6 +104,10 @@ const LoginPage = (location, history) => {
                 // placeholder="Enter password"
                 className="border-b-2 h-[40px]"
               />
+              <Button onClick={resetPasswordHandler}>Reset Password</Button>
+              {resetLoading && <div>Loading...</div>}
+              {resetError && <div>{resetError}</div>}
+              {resetSuccess && <div>Password reset email sent.</div>}
 
               <button className="bg-slate-700 w-[180px] h-[40px] text-white rounded-[15px] mx-auto">
                 Submit
