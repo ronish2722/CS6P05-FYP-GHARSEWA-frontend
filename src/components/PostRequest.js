@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Button, Dropdown, Form, Input, TimePicker, Space } from "antd";
+import { Button, Dropdown, Form, Input, TimePicker, Space, Modal } from "antd";
 import { DownOutlined } from "@ant-design/icons";
 import moment from "moment";
 
@@ -7,6 +7,17 @@ function PostRequest() {
   const [form] = Form.useForm();
   const { TextArea } = Input;
   const [error, setError] = useState(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const showModal = () => {
+    setIsModalOpen(true);
+  };
+  const handleOk = () => {
+    setIsModalOpen(false);
+  };
+  const handleCancel = () => {
+    setIsModalOpen(false);
+  };
 
   const handleSubmit = async (values) => {
     try {
@@ -53,79 +64,96 @@ function PostRequest() {
           maxWidth: 600,
         }}
       >
-        <Form.Item
-          name="title"
-          label="Title"
-          className="pt-[10px]"
-          rules={[
-            {
-              required: true,
-              message: "Please enter a title",
-            },
-          ]}
-        >
-          <Input placeholder="Title" />
-        </Form.Item>
-        <Form.Item
-          name="locations"
-          label="Location"
-          className="pt-[10px]"
-          rules={[
-            {
-              required: true,
-              message: "Please enter a Location",
-            },
-          ]}
-        >
-          <Input placeholder="Location" />
-        </Form.Item>
-        <Form.Item
-          name="categories"
-          label="Category"
-          className="pt-[10px]"
-          rules={[
-            {
-              required: true,
-              message: "Please enter a Category",
-            },
-          ]}
-        >
-          <Input placeholder="Category" />
-          {/* <Dropdown menu={"1"}>
+        <div className="flex justify-between">
+          <Form.Item
+            name="title"
+            label="Title"
+            className="pt-[10px]"
+            rules={[
+              {
+                required: true,
+                message: "Please enter a title",
+              },
+            ]}
+          >
+            <Input placeholder="Title" />
+          </Form.Item>
+          <Form.Item
+            name="locations"
+            label="Location"
+            className="pt-[10px]"
+            rules={[
+              {
+                required: true,
+                message: "Please enter a Location",
+              },
+            ]}
+          >
+            <Input placeholder="Location" />
+          </Form.Item>
+          <Form.Item
+            name="categories"
+            label="Category"
+            className="pt-[10px]"
+            rules={[
+              {
+                required: true,
+                message: "Please enter a Category",
+              },
+            ]}
+          >
+            <Input placeholder="Category" />
+            {/* <Dropdown menu={"1"}>
             <Space>
               Categories
               <DownOutlined />
             </Space>
           </Dropdown> */}
-        </Form.Item>
-        <Form.Item
-          name="start_time"
-          label="Time"
-          className="pt-[10px]"
-          rules={[
-            {
-              required: true,
-              message: "Please enter a Time",
-            },
-          ]}
-        >
-          <TimePicker format="h:mm" />
-        </Form.Item>
+          </Form.Item>
+        </div>
+        <div className="flex justify-between">
+          <Form.Item
+            name="start_time"
+            label="Time"
+            className="pt-[10px]"
+            rules={[
+              {
+                required: true,
+                message: "Please enter a Time",
+              },
+            ]}
+          >
+            <TimePicker format="h:mm" />
+          </Form.Item>
+          <Button
+            type="primary"
+            onClick={showModal}
+            className="bg-[#403D3A] my-[15px]"
+          >
+            Add a Description
+          </Button>
+          <Modal
+            title="Basic Modal"
+            open={isModalOpen}
+            onOk={handleOk}
+            onCancel={handleCancel}
+          >
+            <Form.Item
+              name="body"
+              label="Description"
+              rules={[
+                {
+                  required: true,
+                  message: "Please enter a description",
+                },
+              ]}
+            >
+              <TextArea rows={4} />
+            </Form.Item>
 
-        <Form.Item
-          name="body"
-          label="Description"
-          rules={[
-            {
-              required: true,
-              message: "Please enter a description",
-            },
-          ]}
-        >
-          <TextArea rows={4} />
-        </Form.Item>
-
-        {error && <div style={{ color: "red" }}>{error}</div>}
+            {error && <div style={{ color: "red" }}>{error}</div>}
+          </Modal>
+        </div>
 
         <Form.Item>
           <Button

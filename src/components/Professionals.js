@@ -49,7 +49,11 @@ function Professionals({ professional }) {
             <div className="w-[300px] text-inherit">
               <p>{professional.description}</p>
             </div>
-            <Button className="flex justify-end">View Details</Button>
+            <Link to={`/professionals/${professional._id}`}>
+              <Button className="ml-[180px] mt-[20px] bg-[#403D3A] text-white">
+                View Details
+              </Button>
+            </Link>
           </div>
         </div>
       </Card>

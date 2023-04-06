@@ -11,6 +11,8 @@ const RegisterPage = (location, history) => {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [message, setMessage] = useState("");
 
+  const [registerMessage, setRegisterMessage] = useState("");
+
   const navigate = useNavigate();
 
   const dispatch = useDispatch();
@@ -28,6 +30,15 @@ const RegisterPage = (location, history) => {
   //     navigate(redirect);
   //   }
   // }, [history, userInfo, redirect]);
+  useEffect(() => {
+    if (userInfo) {
+      navigate(redirect);
+    }
+    if (localStorage.getItem("registerMessage")) {
+      setRegisterMessage(localStorage.getItem("registerMessage"));
+      localStorage.removeItem("registerMessage");
+    }
+  }, [navigate, userInfo, redirect]);
 
   const submitHandler = (e) => {
     e.preventDefault();
@@ -40,6 +51,7 @@ const RegisterPage = (location, history) => {
   };
   return (
     <div className="flex justify-between">
+      {registerMessage && <div>{registerMessage}</div>}
       <img
         src={require("../image/fyp2.jpeg")}
         alt="login"
