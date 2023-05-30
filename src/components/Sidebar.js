@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
 import { logout } from "../actions/userAction";
-import { Link, NavLink, useNavigate } from "react-router-dom";
+import { Link, NavLink, useNavigate, useLocation } from "react-router-dom";
 import AuthContext from "../context/AuthContext";
 import { useDispatch, useSelector } from "react-redux";
 import { Dropdown, Space } from "antd";
@@ -14,6 +14,7 @@ const Header = () => {
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const location = useLocation();
 
   const logoutHandler = () => {
     dispatch(logout());
@@ -40,22 +41,37 @@ const Header = () => {
               GharSewa
             </NavLink>
           </h1>
-          <p className="px-4 my-auto mb-[10px] py-[10px] items-end cursor-pointer text-white  hover:bg-neutral-600 rounded-[5px] transition duration-300">
+          <p
+            className={`px-4 my-auto mb-[10px] py-[10px] items-end cursor-pointer text-white hover:bg-neutral-600 rounded-[5px] transition duration-300 ${
+              location.pathname === "/profile" ||
+              location.pathname === "/professional/profile"
+                ? "bg-neutral-600"
+                : ""
+            }`}
+          >
             <Link to="/profile">My Profile</Link>
           </p>
 
-          <p className="px-4 mb-2 py-[10px] text-white  hover:bg-neutral-600 rounded-[5px] transition duration-300">
+          <p
+            className={`px-4 mb-2 py-[10px] text-white  hover:bg-neutral-600 rounded-[5px] transition duration-300 ${
+              location.pathname === "/professionals/" ? "bg-neutral-600" : ""
+            }`}
+          >
             <Link to="/professionals/" className="text-white ">
               Professionals
             </Link>
           </p>
-          <p className="px-4 mb-2 py-[10px] text-white  hover:bg-neutral-600 rounded-[5px] transition duration-300">
+          <p
+            className={`px-4 mb-2 py-[10px] text-white  hover:bg-neutral-600 rounded-[5px] transition duration-300 ${
+              location.pathname === "/your-booking" ? "bg-neutral-600" : ""
+            }`}
+          >
             <Link to="/your-booking" className="text-white ">
               Your bookings
             </Link>
           </p>
           {userInfo && userInfo.isAdmin && (
-            <p className="px-4 mb-2 py-[10px] text-white hover:bg-neutral-600 rounded-[5px] transition duration-300">
+            <p className="px-4 mb-2 py-[10px] text-white hover:bg-neutral-600 rounded-[5px] transition duration-300 ">
               <a
                 href="http://127.0.0.1:8000/admin/"
                 target="_blank"
@@ -68,7 +84,11 @@ const Header = () => {
           )}
 
           {userInfo && userInfo.isProfessional && (
-            <p className="px-4 mb-2 py-[10px] text-white  hover:bg-neutral-600 rounded-[5px] transition duration-300">
+            <p
+              className={`px-4 mb-2 py-[10px] text-white  hover:bg-neutral-600 rounded-[5px] transition duration-300 ${
+                location.pathname === "/public-post/" ? "bg-neutral-600" : ""
+              }`}
+            >
               <Link to="/public-post/" className="text-white ">
                 Public Posts
               </Link>
@@ -76,21 +96,35 @@ const Header = () => {
           )}
 
           {userInfo && userInfo.isProfessional && (
-            <p className="px-4 mb-2 py-[10px] text-white  hover:bg-neutral-600 rounded-[5px] transition duration-300">
+            <p
+              className={`px-4 mb-2 py-[10px] text-white  hover:bg-neutral-600 rounded-[5px] transition duration-300 ${
+                location.pathname === "/private-post/" ? "bg-neutral-600" : ""
+              }`}
+            >
               <Link to="/private-post/" className="text-white ">
                 Private Books
               </Link>
             </p>
           )}
 
-          <p className="px-4 mb-2 py-[10px] text-white  hover:bg-neutral-600 rounded-[5px] transition duration-300">
+          <p
+            className={`px-4 mb-2 py-[10px] text-white  hover:bg-neutral-600 rounded-[5px] transition duration-300 ${
+              location.pathname === "/history/" ? "bg-neutral-600" : ""
+            }`}
+          >
             <Link to="/history/" className="text-white ">
               History
             </Link>
           </p>
 
           {userInfo && !userInfo.isProfessional && (
-            <p className="px-4 mb-2 py-[10px] text-white hover:bg-neutral-600 rounded-[5px] transition duration-300">
+            <p
+              className={`px-4 mb-2 py-[10px] text-white hover:bg-neutral-600 rounded-[5px] transition duration-300 ${
+                location.pathname === "/register-professional"
+                  ? "bg-neutral-600"
+                  : ""
+              }`}
+            >
               <Link to="/register-professional" className="text-white">
                 Become a Professional
               </Link>

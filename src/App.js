@@ -9,6 +9,8 @@ import RegisterProfessional from "./pages/RegisterProfessional";
 import ProfilePage from "./pages/ProfilePage";
 import ViewProPage from "./pages/ViewProPage";
 import ProfessionalsView from "./pages/ProfessionalsView";
+import ProfessionalUpdate from "./pages/ProfessionalUpdate";
+
 import AllProfessionals from "./pages/AllProfessionals";
 import UserListPage from "./pages/UserListPage";
 import UserUpdateScreen from "./pages/UserUpdateScreen";
@@ -49,6 +51,10 @@ function App() {
           <Route element={<PrivatePost />} path="/private-post" />
 
           <Route element={<ProfilePage />} path="/profile" />
+          <Route
+            element={<ProfessionalUpdate />}
+            path="/professional/profile"
+          />
           <Route element={<ViewProPage />} path="/viewpro" />
 
           <Route element={<Khalti />} path="/khalti" />

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { Button, Card } from "antd";
+import { Button, Card, message } from "antd";
 import Sidebar from "./Sidebar";
 
 function PrivatePost() {
@@ -31,6 +31,18 @@ function PrivatePost() {
 
   const handleAccept = async (bookId) => {
     try {
+      const confirmedPost = bookings.find(
+        (booking) => booking.status === "Confirmed"
+      );
+      if (confirmedPost) {
+        // There is already a post with "Confirmed" status
+        // You can display a message or handle the scenario as needed
+
+        message.error(
+          "Another booking is already confirmed. Cannot accept another booking."
+        );
+        return;
+      }
       await axios.put(
         `http://127.0.0.1:8000/api/accept-booking/${bookId}/`,
         { status: "Confirmed" },

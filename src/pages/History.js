@@ -43,8 +43,6 @@ function YourBooking() {
     return book.status == "Completed";
   });
 
-  console.log(filteredBooks);
-
   // Render the filtered posts
   return (
     <div className="flex bg-neutral-200 min-h-screen">

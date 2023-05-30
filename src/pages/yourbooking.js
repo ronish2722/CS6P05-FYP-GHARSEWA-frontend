@@ -103,8 +103,8 @@ function YourBooking() {
 
   const [searchParams] = useSearchParams();
 
-  const handleEpay = async (e, post) => {
-    e.preventDefault();
+  const handleEpay = async (e) => {
+    // e.preventDefault();
 
     try {
       const response = await fetch("http://localhost:8000/api/epay", {
@@ -126,6 +126,14 @@ function YourBooking() {
     } catch (error) {
       console.error(error);
     }
+  };
+
+  const PaymentAction = (post) => {
+    handleEpay();
+    handleComplete(post.id);
+    setPosts((posts) =>
+      posts.map((p) => (p.id === post.id ? { ...p, status: "Complete" } : p))
+    );
   };
 
   useEffect(() => {
@@ -221,17 +229,7 @@ function YourBooking() {
                       <Button
                         className="flex-1 font-bold min-w-[150px] min-h-[180px] mr-[10px]
                       "
-                        onClick={() => {
-                          handleOk();
-                          handleComplete(post.id);
-                          setPosts((posts) =>
-                            posts.map((p) =>
-                              p.id === post.id
-                                ? { ...p, status: "Complete" }
-                                : p
-                            )
-                          );
-                        }}
+                        onClick={() => PaymentAction(post)}
                       >
                         <img
                           src={require("../image/pay.png")}
@@ -245,17 +243,27 @@ function YourBooking() {
                           src={require("../image/khalti.png")}
                           alt="khalti"
                           className="w-[120px] relative"
-                          onClick={handleEpay}
-                          // // onClick={() => {
-                          // //   handleComplete(post.id);
-                          // //   setPosts((posts) =>
-                          // //     posts.map((p) =>
-                          // //       p.id === post.id
-                          // //         ? { ...p, status: "Complete" }
-                          // //         : p
-                          // //     )
-                          // //   );
-                          // // }}
+                          onClick={() => {
+                            handleEpay();
+                            handleComplete(post.id);
+                            setPosts((posts) =>
+                              posts.map((p) =>
+                                p.id === post.id
+                                  ? { ...p, status: "Complete" }
+                                  : p
+                              )
+                            );
+                          }}
+                          // onClick={() => {
+                          //   handleComplete(post.id);
+                          //   setPosts((posts) =>
+                          //     posts.map((p) =>
+                          //       p.id === post.id
+                          //         ? { ...p, status: "Complete" }
+                          //         : p
+                          //     )
+                          //   );
+                          // }}
                         />
                         Khalti
                       </Button>

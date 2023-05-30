@@ -2,8 +2,9 @@ import React from "react";
 import { getUserDetails, updateUserProfile } from "../actions/userAction";
 import { useDispatch, useSelector } from "react-redux";
 import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { USER_UPDATE_PROFILE_RESET } from "../constant/userConstant";
+import { message } from "antd";
 import Sidebar from "../components/Sidebar";
 import { Card } from "antd";
 function ProfilePage({ history }) {
@@ -11,7 +12,7 @@ function ProfilePage({ history }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
-  const [message, setMessage] = useState("");
+  const [message1, setMessage1] = useState("");
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -25,6 +26,8 @@ function ProfilePage({ history }) {
 
   useEffect(() => {
     if (!userInfo || !userInfo.name) {
+      setName(userInfo.name);
+      setEmail(userInfo.email);
       dispatch({ type: USER_UPDATE_PROFILE_RESET });
       dispatch(getUserDetails("profile"));
     } else {
@@ -35,8 +38,13 @@ function ProfilePage({ history }) {
 
   const submitHandler = (e) => {
     e.preventDefault();
-    if (password != confirmPassword) {
-      setMessage("Password doesn't match");
+
+    if (password !== confirmPassword) {
+      setMessage1("Passwords do not match");
+      message.error("Passwords do not match");
+    } else if (password.length < 8) {
+      setMessage1("Password must be at least 8 characters long");
+      message.error("Password must be at least 8 characters long");
     } else {
       dispatch(
         updateUserProfile({
@@ -46,7 +54,7 @@ function ProfilePage({ history }) {
           password: password,
         })
       );
-      setMessage("");
+      setMessage1("");
     }
   };
 
@@ -69,7 +77,7 @@ function ProfilePage({ history }) {
               required
               type="text"
               name="username"
-              value={userInfo.name}
+              value={name}
               onChange={(e) => setName(e.target.value)}
               className="border-b-2 h-[40px]"
             />
@@ -78,7 +86,7 @@ function ProfilePage({ history }) {
               required
               type="email"
               name="email"
-              value={userInfo.email}
+              value={email}
               onChange={(e) => setEmail(e.target.value)}
               className="border-b-2 h-[40px]"
             />
@@ -101,6 +109,13 @@ function ProfilePage({ history }) {
             <button className="bg-slate-700 w-[180px] h-[40px] text-white rounded-[15px] mx-auto">
               Update
             </button>
+            {userInfo.isProfessional && (
+              <Link to="/professional/profile">
+                <p className="ml-[315px] text-neutral-600">
+                  <u>Check Professional Profile</u>
+                </p>
+              </Link>
+            )}
           </div>
         </form>
       </Card>

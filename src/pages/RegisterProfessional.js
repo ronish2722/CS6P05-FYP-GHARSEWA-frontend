@@ -36,7 +36,7 @@ const RegisterProfessional = () => {
     formData.append("number", number);
     formData.append("price", price);
     formData.append("category", selectedCategory);
-    formData.append("image", image);
+    formData.append("image", image[0]);
     const userInfoFromStorage = localStorage.getItem("userInfo")
       ? JSON.parse(localStorage.getItem("userInfo"))
       : null;
@@ -56,12 +56,13 @@ const RegisterProfessional = () => {
       navigate("/");
     } catch (err) {
       setError(err.response.data.detail);
-      console.log(err.response.data.detail);
-      message.error("Your registeration is already being processed.");
-      message.error("Please wait for admins approval.");
+      message.error(err.response.data.detail);
+      // message.error("Your registeration is already being processed.");
+      // message.error("Please wait for admins approval.");
       navigate("/");
     }
   };
+
   return (
     <div className="flex justify-between">
       <div className="p-7 w-full my-auto s">
