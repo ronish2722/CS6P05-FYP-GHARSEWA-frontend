@@ -7,7 +7,9 @@ const RegisterProfessional = () => {
   const [name, setName] = useState("");
   const [location, setLocation] = useState("");
   const [description, setDescription] = useState("");
-  const [image, setImage] = useState(null);
+  const [number, setNumber] = useState("");
+  const [price, setPrice] = useState("");
+  const [image, setImage] = useState("");
   const [error, setError] = useState(null);
   const [success, setSuccess] = useState(false);
   const [categories, setCategories] = useState([]);
@@ -31,6 +33,8 @@ const RegisterProfessional = () => {
     formData.append("name", name);
     formData.append("location", location);
     formData.append("description", description);
+    formData.append("number", number);
+    formData.append("price", price);
     formData.append("category", selectedCategory);
     formData.append("image", image);
     const userInfoFromStorage = localStorage.getItem("userInfo")
@@ -52,25 +56,24 @@ const RegisterProfessional = () => {
       navigate("/");
     } catch (err) {
       setError(err.response.data.detail);
+      console.log(err.response.data.detail);
+      message.error("Your registeration is already being processed.");
+      message.error("Please wait for admins approval.");
+      navigate("/");
     }
   };
   return (
     <div className="flex justify-between">
-      <img
-        src={require("../image/fyp2.jpeg")}
-        alt="login"
-        className="w-[854px] h-screen"
-      />
-      <div className="p-7 w-full my-auto space-y-[100px]">
+      <div className="p-7 w-full my-auto s">
         <h1 className="text-3xl font-black text-center">GharSewa</h1>
         <div>
-          <p className="text-zinc-400 font-thin text-center">
+          <p className="text-zinc-400 font-thin text-center text-sm">
             Welcome to GharSewa
           </p>
 
           {/* <form onSubmit={(e) => loginUser(e)}> */}
           <form onSubmit={handleSubmit}>
-            <div className="flex flex-col p-[20px] space-y-[20px]">
+            <div className="flex flex-col p-[20px] space-y-[20px] text-sm">
               <label htmlFor="name">Name</label>
               <input
                 type="text"
@@ -79,29 +82,49 @@ const RegisterProfessional = () => {
                 required
                 // placeholder="Enter username"
 
-                className="border-b-2 h-[40px]"
+                className="border-b-2 h-[20px]"
               />
-              <label htmlFor="location">Location:</label>
-              <input
-                type="text"
-                id="location"
-                onChange={(e) => setLocation(e.target.value)}
-                required
-                className="border-b-2 h-[40px]"
-              />
-              <label htmlFor="category">Category:</label>
-              <select
-                id="category"
-                value={selectedCategory}
-                onChange={(e) => setSelectedCategory(e.target.value)}
-                className="border-b-2 h-[40px]"
-              >
-                {categories.map((category) => (
-                  <option key={category.id} value={category.name}>
-                    {category.name}
-                  </option>
-                ))}
-              </select>
+              <div className="py-[10px]">
+                <label htmlFor="location">Location:</label>
+                <input
+                  type="text"
+                  id="location"
+                  onChange={(e) => setLocation(e.target.value)}
+                  required
+                  className="border-b-2 h-[40px] mr-[50px]"
+                />
+                <label htmlFor="category">Category:</label>
+                <select
+                  id="category"
+                  value={selectedCategory}
+                  onChange={(e) => setSelectedCategory(e.target.value)}
+                  className="border-b-2 h-[40px]"
+                >
+                  {categories.map((category) => (
+                    <option key={category.id} value={category.name}>
+                      {category.name}
+                    </option>
+                  ))}
+                </select>
+              </div>
+              <div className="py-[10px]">
+                <label htmlFor="number">Number:</label>
+                <input
+                  type="number"
+                  id="number"
+                  onChange={(e) => setNumber(e.target.value)}
+                  required
+                  className="border-b-2 h-[40px] mr-[50px]"
+                />
+                <label htmlFor="price">Price:</label>
+                <input
+                  type="number"
+                  id="price"
+                  onChange={(e) => setPrice(e.target.value)}
+                  required
+                  className="border-b-2 h-[40px] mr-[10px]"
+                />
+              </div>
               <label htmlFor="description">Description:</label>
               <textarea
                 id="description"
@@ -124,6 +147,11 @@ const RegisterProfessional = () => {
           </form>
         </div>
       </div>
+      <img
+        src={require("../image/02.jpg")}
+        alt="login"
+        className="w-[2000px] h-screen"
+      />
     </div>
   );
 };

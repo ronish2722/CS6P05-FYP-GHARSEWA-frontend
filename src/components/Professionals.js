@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import Header from "./Header";
 import { useDispatch, useSelector } from "react-redux";
 import { listAllReviews } from "../actions/reviewsAction";
-import { DownOutlined } from "@ant-design/icons";
+import { EnvironmentOutlined } from "@ant-design/icons";
 
 function Professionals({ professional }) {
   const dispatch = useDispatch();
@@ -25,7 +25,7 @@ function Professionals({ professional }) {
 
   return (
     <div>
-      <Card className="my-3 p-3 rounded-[20px] mx-[20px] w-full h-[200px]">
+      <Card className=" bg-neutral-100 my-3 p-3 rounded-[10px] mx-[20px] w-full h-[200px] max-w-[880px]">
         <div className="flex justify-between">
           <div className="">
             <Link to={`/professionals/${professional._id}`}>
@@ -40,14 +40,19 @@ function Professionals({ professional }) {
             <Link to={`/professionals/${professional._id}`}>
               <p className="text-bold text-xl">{professional.name}</p>
             </Link>
-            <p>{professional.location}</p>
+            <div className="flex">
+              <EnvironmentOutlined className="pt-[5px] pr-[5px]" />
+              <p>{professional.location}</p>
+            </div>
             <p>{professional.category_name}</p>
           </div>
           <div>
             <Rate allowHalf disabled value={averageRating} /> by{" "}
             {professionalReviews.length} users
             <div className="w-[300px] text-inherit">
-              <p>{professional.description}</p>
+              <p>
+                {professional.description.split(" ").slice(0, 20).join(" ")}...
+              </p>
             </div>
             <Link to={`/professionals/${professional._id}`}>
               <Button className="ml-[180px] mt-[20px] bg-[#403D3A] text-white">

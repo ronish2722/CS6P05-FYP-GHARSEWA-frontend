@@ -5,6 +5,7 @@ import {
   userLoginReducer,
   userRegisterReducer,
   userDetailsReducer,
+  userUpdateProfileReducer,
   userListReducer,
   userDeleteReducer,
   passwordResetReducer,
@@ -36,6 +37,8 @@ const reducer = combineReducers({
   userDetails: userDetailsReducer,
   userList: userListReducer,
   userDelete: userDeleteReducer,
+  userUpdateProfile: userUpdateProfileReducer,
+
   reviews: reviewsReducer,
   reviewListAll: reviewListAllReducer,
 

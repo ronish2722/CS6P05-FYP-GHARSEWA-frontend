@@ -27,15 +27,20 @@ const GetReviews = () => {
 
   return (
     <div className="px-[100px]">
-      <h2 className="font-bold">Reviews:</h2>
+      {/* <h2 className="font-bold text-2xl mb-6">Reviews:</h2> */}
       {reviews.map((review) => (
-        <div key={review._id} className="py-[10px]">
-          <p className="font-bold">{review.user}</p>
-          <Rate allowHalf disabled value={review.rating} />
-
-          <p>Comment: {review.comment}</p>
-
-          <hr />
+        <div key={review._id} className="py-4 border-b-2">
+          <p className="font-bold text-lg mb-2">{review.user}</p>
+          <div className="flex items-center mb-2">
+            <Rate allowHalf disabled value={review.rating} className="mr-2" />
+            <span className="text-gray-500 text-sm">{review.date}</span>
+          </div>
+          <p
+            className="text-gray-600
+          "
+          >
+            {review.comment}
+          </p>
         </div>
       ))}
     </div>

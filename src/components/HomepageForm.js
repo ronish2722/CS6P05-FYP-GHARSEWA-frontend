@@ -11,7 +11,7 @@ function HomepageForm() {
   ];
   return (
     <div>
-      <Card className="w-[800px]" bordered={false}>
+      <Card className="w-[800px] h-[300px]" bordered={false}>
         <Tabs
           defaultActiveKey="1"
           type="card"

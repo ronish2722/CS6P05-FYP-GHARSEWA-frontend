@@ -5,6 +5,7 @@ import AuthContext from "../context/AuthContext";
 import { useDispatch, useSelector } from "react-redux";
 import { Dropdown, Space } from "antd";
 import useSelection from "antd/es/table/hooks/useSelection";
+import { DownOutlined } from "@ant-design/icons";
 
 const Header = () => {
   // let { user, logoutUser } = useContext(AuthContext);
@@ -20,8 +21,19 @@ const Header = () => {
     navigate("/login");
   };
 
+  const items = [
+    {
+      label: <Link to="/public-post/">Public Post</Link>,
+      key: "0",
+    },
+    {
+      label: <Link to="/private-post/">Private Books</Link>,
+      key: "1",
+    },
+  ];
+
   return (
-    <div className="bg-white">
+    <div className="bg-white  w-screen">
       {/* <div>
         <Link to="/">Home</Link>
         <span>|</span>
@@ -38,30 +50,55 @@ const Header = () => {
           <NavLink to="/">GharSewa</NavLink>
         </h1>
         <div className="flex">
-          <p className="px-[30px] my-auto items-end">
+          <p className="px-[30px] my-auto items-end text-sm">
             <Link to={"/profile"}>My Profile</Link>
           </p>
-          <p className="px-[30px] my-auto items-end" onClick={logoutHandler}>
+          <p className="px-[30px] my-auto items-end text-sm">
+            <Link to={"/your-booking"}>Your bookings</Link>
+          </p>
+          <p className="px-[30px] my-auto items-end text-sm">
+            <Link to={"/history"}>History</Link>
+          </p>
+          <p
+            className="px-[30px] my-auto items-end text-sm"
+            onClick={logoutHandler}
+          >
             Logout
           </p>
           {userInfo && userInfo.isAdmin && (
-            <p className="px-[30px] my-auto items-end">
-              <Link to="/admin/userlist">Users</Link>
+            <p className="px-[30px] my-auto items-end text-sm">
+              <a
+                href="http://127.0.0.1:8000/admin/"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                Admin
+              </a>
             </p>
           )}
           {userInfo && userInfo.isProfessional && (
-            <p className="px-[30px] my-auto items-end">
-              <Link to="/posts/">Requests</Link>
-            </p>
+            <Dropdown
+              menu={{
+                items,
+              }}
+              className="px-[30px] my-auto items-end text-sm"
+            >
+              <a onClick={(e) => e.preventDefault()}>
+                <Space className="text-sm">
+                  Requests
+                  <DownOutlined />
+                </Space>
+              </a>
+            </Dropdown>
           )}
-          {userInfo && !userInfo.isProfessional && (
-            <p className="px-[30px] my-auto items-end">
+          {userInfo && !userInfo.isProfessional && !userInfo.isAdmin && (
+            <p className="px-[30px] my-auto items-end text-sm">
               <Link to="/register-professional">Become a Professional</Link>
             </p>
           )}
 
           <Link to="/todo/">
-            <button className="bg-slate-700 w-[120px] h-[40px] text-white rounded-[15px]">
+            <button className="bg-slate-700 w-[120px] h-[40px] text-white rounded-[15px] text-sm">
               To-do List
             </button>
           </Link>

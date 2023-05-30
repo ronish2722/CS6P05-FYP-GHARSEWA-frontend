@@ -96,3 +96,5 @@ export const cancelBooking = (id) => async (dispatch, getState) => {
     });
   }
 };
+
+

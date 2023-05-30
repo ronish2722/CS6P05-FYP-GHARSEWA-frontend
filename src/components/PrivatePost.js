@@ -1,9 +1,16 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { Button, Card } from "antd";
+import Sidebar from "./Sidebar";
 
 function PrivatePost() {
   const [bookings, setBookings] = useState([]);
+  const currentDate = new Date(); // Get the current date
+
+  // Filter the bookings array to include only the posts with booked_date greater than the current date
+  const filteredBookings = bookings.filter(
+    (booking) => new Date(booking.booked_date) > currentDate
+  );
 
   const userInfoFromStorage = localStorage.getItem("userInfo")
     ? JSON.parse(localStorage.getItem("userInfo"))
@@ -55,14 +62,44 @@ function PrivatePost() {
   };
   console.log(bookings);
   return (
-    <div>
-      {bookings.map((booking) => (
+    <div className="bg-neutral-300 min-h-screen">
+      <Sidebar />
+      <img
+        src={require("../image/01.jpg")}
+        alt="home"
+        className=" w-screen h-[300px] object-cover"
+      />
+      <div className="py-6 ml-[400px] bg-neutral-100 rounded-lg shadow-md p-6 mx-[100px] relative mt-[-40px] font-bold text-xl">
+        Private Posts
+      </div>
+      {filteredBookings.map((booking) => (
         <div key={booking._id} className="px-[100px] py-[10px]">
-          <Card title={booking._id} bordered={true} className="w-full">
-            <h2></h2>
-            <p>
-              <b>{booking.user}</b>
-            </p>
+          <Card
+            title={booking.user + " has booked you"}
+            bordered={true}
+            className="max-w-[895px] ml-[300px] bg-neutral-100"
+          >
+            <div className="pb-[20px]">
+              <div>
+                <p>
+                  <b className="text-lg font-bold mb-2">
+                    Location: {booking.locations}
+                  </b>
+                </p>
+                <p className=" text-lg font-bold text-gray-500 flex">
+                  Time:{" "}
+                  {new Date(booking.start_time).toLocaleTimeString([], {
+                    hour: "2-digit",
+                    minute: "2-digit",
+                  })}
+                  <p className="ml-[50px]">
+                    Date: {new Date(booking.booked_date).toLocaleDateString()}
+                  </p>
+                </p>
+              </div>
+              <p></p>
+            </div>
+
             <Button
               type="primary"
               className="bg-[#403D3A] w-[100px] h-[40px]"

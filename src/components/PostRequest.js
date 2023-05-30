@@ -1,14 +1,28 @@
-import React, { useState } from "react";
-import { Button, Dropdown, Form, Input, TimePicker, Space, Modal } from "antd";
+import React, { useState, useEffect } from "react";
+import axios from "axios";
+import {
+  Button,
+  Dropdown,
+  Form,
+  Input,
+  TimePicker,
+  Space,
+  Modal,
+  message,
+  Select,
+  DatePicker,
+} from "antd";
 import { DownOutlined } from "@ant-design/icons";
 import moment from "moment";
 
 function PostRequest() {
+  const { Option } = Select;
   const [form] = Form.useForm();
   const { TextArea } = Input;
   const [error, setError] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
-
+  const [categories, setCategories] = useState([]);
+  const [selectedCategory, setSelectedCategory] = useState("");
   const showModal = () => {
     setIsModalOpen(true);
   };
@@ -18,6 +32,28 @@ function PostRequest() {
   const handleCancel = () => {
     setIsModalOpen(false);
   };
+
+  const { RangePicker } = DatePicker;
+
+  // Disable dates greater than or equal to the current date
+  const disabledDate = (current) => {
+    const currentDate = new Date();
+    return current && current <= currentDate;
+  };
+  useEffect(() => {
+    const fetchCategories = async () => {
+      try {
+        const { data } = await axios.get("/api/categories/");
+        setCategories(data);
+        setSelectedCategory(data[0]?.name || "");
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    fetchCategories();
+  }, []);
+
+  console.log(categories);
 
   const handleSubmit = async (values) => {
     try {
@@ -36,6 +72,7 @@ function PostRequest() {
           title: values.title,
           locations: values.locations,
           categories: values.categories,
+          created_date: values.created_date,
           start_time: values.start_time.format("HH:mm"),
           body: values.body,
         }),
@@ -44,25 +81,26 @@ function PostRequest() {
       if (!response.ok) {
         const errorData = await response.json();
         setError(errorData.detail);
+        message.error("An error occurred while creating the post");
       } else {
         const postData = await response.json();
         // Do something with the created post data
-        console.log(postData);
+        message.success("Your post has been successfully posted");
+        form.resetFields();
       }
     } catch (error) {
       console.error(error);
       setError("An error occurred while creating the post");
+      message.error("An error occurred while creating the post");
     }
   };
 
   return (
     <div>
       <Form
+        className="w-full p-4 rounded-lg  bg-white"
         form={form}
         onFinish={handleSubmit}
-        style={{
-          maxWidth: 600,
-        }}
       >
         <div className="flex justify-between">
           <Form.Item
@@ -98,17 +136,21 @@ function PostRequest() {
             rules={[
               {
                 required: true,
-                message: "Please enter a Category",
+                message: "Please select a category",
               },
             ]}
           >
-            <Input placeholder="Category" />
-            {/* <Dropdown menu={"1"}>
-            <Space>
-              Categories
-              <DownOutlined />
-            </Space>
-          </Dropdown> */}
+            <Select
+              placeholder="Select a category"
+              value={selectedCategory}
+              onChange={(value) => setSelectedCategory(value)}
+            >
+              {categories.map((category) => (
+                <Option key={category.id} value={category.name}>
+                  {category.name}
+                </Option>
+              ))}
+            </Select>
           </Form.Item>
         </div>
         <div className="flex justify-between">
@@ -125,6 +167,20 @@ function PostRequest() {
           >
             <TimePicker format="h:mm" />
           </Form.Item>
+          <Form.Item
+            name="created_date"
+            label="Date"
+            className="pt-[10px]"
+            rules={[
+              {
+                required: true,
+                message: "Please enter a Date",
+              },
+            ]}
+          >
+            <DatePicker disabledDate={disabledDate} />
+          </Form.Item>
+
           <Button
             type="primary"
             onClick={showModal}
@@ -133,10 +189,13 @@ function PostRequest() {
             Add a Description
           </Button>
           <Modal
-            title="Basic Modal"
+            title="Description"
             open={isModalOpen}
             onOk={handleOk}
             onCancel={handleCancel}
+            okButtonProps={{
+              style: { backgroundColor: "gray", color: "white" },
+            }}
           >
             <Form.Item
               name="body"
@@ -154,16 +213,18 @@ function PostRequest() {
             {error && <div style={{ color: "red" }}>{error}</div>}
           </Modal>
         </div>
-
-        <Form.Item>
-          <Button
-            type="primary"
-            htmlType="submit"
-            className="bg-[#403D3A] w-[100px]"
-          >
-            Post
-          </Button>
-        </Form.Item>
+        <div className="flex justify-center ">
+          <Form.Item>
+            <Button
+              type="primary"
+              htmlType="submit"
+              className="bg-gray-200 text-black font-semibold hover:bg-gray-300 w-[100px]"
+              size="large"
+            >
+              Post
+            </Button>
+          </Form.Item>
+        </div>
       </Form>
     </div>
   );

@@ -3,11 +3,24 @@ import { Link, redirect, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import AuthContext from "../context/AuthContext";
 import { login, resetPassword } from "../actions/userAction";
-import { Button } from "antd";
+import { Button, message, Modal } from "antd";
 
 const LoginPage = (location, history) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const showModal = () => {
+    setIsModalOpen(true);
+  };
+
+  const handleOk = () => {
+    setIsModalOpen(false);
+  };
+
+  const handleCancel = () => {
+    setIsModalOpen(false);
+  };
 
   const navigate = useNavigate();
 
@@ -42,22 +55,23 @@ const LoginPage = (location, history) => {
   const resetPasswordHandler = () => {
     if (!email) {
       // show error message for empty email field
-      alert("Please enter your email address");
+      message.error("Please enter your email address");
       return;
     }
+    showModal();
     dispatch(resetPassword(email));
   };
   return (
     <div className="flex justify-between">
       <img
-        src={require("../image/fyp2.jpeg")}
+        src={require("../image/22.avif")}
         alt="login"
-        className="w-[854px] h-screen"
+        className="w-[800px] h-screen"
       />
-      <div className="p-7 w-full my-auto space-y-[100px]">
+      <div className="p-7 w-full my-auto space-y-[70px]">
         <h1 className="text-3xl font-black text-center">GharSewa</h1>
         <div>
-          <p className="text-zinc-400 font-thin text-center">
+          <p className="text-zinc-400 font-thin text-center text-sm">
             Welcome to GharSewa
           </p>
           {/* Render error message if error is present */}
@@ -85,8 +99,8 @@ const LoginPage = (location, history) => {
 
           {/* <form onSubmit={(e) => loginUser(e)}> */}
           <form onSubmit={submitHandler}>
-            <div className="flex flex-col p-[20px] space-y-[20px]">
-              <label>Email</label>
+            <div className="flex flex-col p-[20px] space-y-[20px] pt-[30px] ">
+              <label className="text-sm">Email</label>
               <input
                 type="text"
                 name="username"
@@ -94,8 +108,9 @@ const LoginPage = (location, history) => {
                 // placeholder="Enter username"
                 onChange={(e) => setEmail(e.target.value)}
                 className="border-b-2 h-[40px]"
+                required
               />
-              <label>Password</label>
+              <label className="text-sm">Password</label>
               <input
                 type="password"
                 name="password"
@@ -103,20 +118,39 @@ const LoginPage = (location, history) => {
                 value={password}
                 // placeholder="Enter password"
                 className="border-b-2 h-[40px]"
+                required
               />
-              <Button onClick={resetPasswordHandler}>Reset Password</Button>
-              {resetLoading && <div>Loading...</div>}
-              {resetError && <div>{resetError}</div>}
-              {resetSuccess && <div>Password reset email sent.</div>}
+              <p
+                className="text-sm text-zinc-400"
+                onClick={() => {
+                  resetPasswordHandler();
+                }}
+              >
+                Reset Password
+              </p>
 
-              <button className="bg-slate-700 w-[180px] h-[40px] text-white rounded-[15px] mx-auto">
+              <Modal
+                title="Reset Password"
+                open={isModalOpen}
+                onOk={handleOk}
+                onCancel={handleCancel}
+                okButtonProps={{
+                  style: { backgroundColor: "gray", color: "white" },
+                }}
+              >
+                {resetLoading && <div>Loading...</div>}
+                {resetError && <div>{resetError}</div>}
+                {resetSuccess && <div>Password reset email sent.</div>}
+              </Modal>
+
+              <button className="bg-slate-700 w-[180px] h-[40px] text-white rounded-[15px] mx-auto text-sm">
                 Submit
               </button>
             </div>
           </form>
         </div>
-        <p className="text-center text-zinc-400 font-thin">
-          New to GharSewa?
+        <p className="text-center text-zinc-400 font-thin text-sm">
+          New to GharSewa?&nbsp;
           <u>
             {/* <Link
               to={redirect ? ` /register?redirect=${redirect}` : "/register"}

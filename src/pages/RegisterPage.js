@@ -3,13 +3,14 @@ import { Link, redirect, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import AuthContext from "../context/AuthContext";
 import { register } from "../actions/userAction";
+import { message } from "antd";
 
 const RegisterPage = (location, history) => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
-  const [message, setMessage] = useState("");
+  const [message1, setMessage1] = useState("");
 
   const [registerMessage, setRegisterMessage] = useState("");
 
@@ -43,30 +44,35 @@ const RegisterPage = (location, history) => {
   const submitHandler = (e) => {
     e.preventDefault();
     if (password != confirmPassword) {
-      setMessage("Password doesnt match");
+      setMessage1("Password doesnt match");
+      message.error("Password doesnt match");
+    } else if (password.length < 8) {
+      setMessage1("Password should be at least 8 characters long");
+      message.error("Password should be at least 8 characters long");
     } else {
       dispatch(register(name, email, password));
-      navigate("/login");
+      if (error) {
+        setMessage1(error);
+        message.error(error);
+      } else {
+        setMessage1(""); // Clear the error message
+        navigate("/login");
+        message.success("Please check email and verify before logging in");
+      }
     }
   };
   return (
     <div className="flex justify-between">
-      {registerMessage && <div>{registerMessage}</div>}
-      <img
-        src={require("../image/fyp2.jpeg")}
-        alt="login"
-        className="w-[854px] h-screen"
-      />
-      <div className="p-7 w-full my-auto space-y-[100px]">
+      <div className="p-7 w-full my-auto space-y-[30px] h-screen">
         <h1 className="text-3xl font-black text-center">GharSewa</h1>
         <div>
-          <p className="text-zinc-400 font-thin text-center">
+          <p className="text-zinc-400 font-thin text-center text-sm">
             Welcome to GharSewa
           </p>
 
           {/* <form onSubmit={(e) => loginUser(e)}> */}
           <form onSubmit={submitHandler}>
-            <div className="flex flex-col p-[20px] space-y-[20px]">
+            <div className="flex flex-col p-[20px] space-y-[20px] text-sm">
               <label>Name</label>
               <input
                 required
@@ -85,7 +91,7 @@ const RegisterPage = (location, history) => {
                 // placeholder="Enter username"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className="border-b-2 h-[40px]"
+                className="border-b-2 h-[40px] text-sm"
               />
               <label>Password</label>
               <input
@@ -95,7 +101,7 @@ const RegisterPage = (location, history) => {
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 // placeholder="Enter password"
-                className="border-b-2 h-[40px]"
+                className="border-b-2 h-[40px] test"
               />
               <label>Confirm Password</label>
               <input
@@ -114,13 +120,19 @@ const RegisterPage = (location, history) => {
             </div>
           </form>
         </div>
-        <p className="text-center text-zinc-400 font-thin">
-          Have an Account?
+        <p className="text-center text-zinc-400 font-thin text-sm">
+          Have an Account?&nbsp;
           <u>
             <Link to={"/login"}>Sign In</Link>
           </u>
         </p>
       </div>
+      {registerMessage && <div>{registerMessage}</div>}
+      <img
+        src={require("../image/02.jpg")}
+        alt="login"
+        className="w-[2000px] h-screen"
+      />
     </div>
   );
 };

@@ -10,6 +10,7 @@ const Review = () => {
   const [rating, setRating] = useState("");
   const [comment, setComment] = useState("");
   const [error, setError] = useState(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const dispatch = useDispatch();
 
   const { id } = useParams();
@@ -24,6 +25,10 @@ const Review = () => {
 
   const handleCommentChange = (event) => {
     setComment(event.target.value);
+  };
+
+  const handleOk = () => {
+    setIsModalOpen(false);
   };
 
   const handleSubmit = async (event) => {
@@ -44,6 +49,10 @@ const Review = () => {
       );
 
       console.log(response.data); // handle success
+
+      // Reset the comment and rating state variables
+      setComment("");
+      setRating("");
     } catch (error) {
       setError(error.response.data.detail); // handle error
     }
@@ -60,6 +69,7 @@ const Review = () => {
             value={rating}
             onChange={handleRatingChange}
             allowClear={false}
+            tooltips={["1", "2", "3", "4", "5"]}
           />
         </div>
 
@@ -71,8 +81,9 @@ const Review = () => {
         </div>
 
         <button
-          className=" px-[50px] py-[10px] rounded-[10px] bg-slate-700 text-white"
+          className=" px-[50px] py-[10px] rounded-[10px] bg-slate-700 text-white ml-[60px]"
           type="submit"
+          onClick={handleOk}
         >
           Submit
         </button>

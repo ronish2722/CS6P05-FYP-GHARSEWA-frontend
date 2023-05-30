@@ -5,12 +5,12 @@ export const AboutUs = () => {
     <div>
       <div className="bg-[#F0EFEF] flex justify-center px-[150px] py-[50px]">
         <div className="">
-          <h1 className="font-[1000] text-7xl w-[450px]">
+          <h1 className="font-[1000] text-7xl w-[450px] mb-[40px]">
             We make Home Care easier
           </h1>
-          <p className="w-[300px] pt-[20px]">
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-            eiusmod tempor incididunt ut labore et dolore magna aliqua. .
+          <p className="w-[400px] pt-[20px] text-sm tracking-wider leading-7">
+            Efficiently manage your household chores with GharSewa, your trusted
+            home service partner.
           </p>
         </div>
         <div className=" bg-[#333231] w-[100px] h-[100px] rounded-full absolute" />

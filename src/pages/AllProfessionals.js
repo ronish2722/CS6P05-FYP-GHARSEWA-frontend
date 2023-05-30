@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import Message from "../components/Message";
 import Professionals from "../components/Professionals";
 import Header from "../components/Header";
+import Sidebar from "../components/Sidebar";
 import { Loading } from "../components/Loading";
 import { useDispatch, useSelector } from "react-redux";
 import { listProfessionals } from "../actions/professionalAction";
@@ -53,20 +54,13 @@ const AllProfessionals = () => {
   );
 
   return (
-    <div className="">
-      <Header />
+    <div className="bg-neutral-300 relative min-h-screen">
+      <Sidebar />
+
       <img
-        src={require("../image/13.jpg")}
-        alt="todo"
-        style={{
-          position: "absolute",
-          top: 0,
-          left: 0,
-          width: "100%",
-          height: "100vh",
-          filter: "blur(2px)",
-          zIndex: -1,
-        }}
+        src={require("../image/01.jpg")}
+        alt="home"
+        className=" w-screen h-[300px] object-cover"
       />
 
       {loading ? (
@@ -75,10 +69,10 @@ const AllProfessionals = () => {
         <Message message={error} type="error" />
       ) : (
         <div className="">
-          <p className="text-black font-black text-3xl  p-[30px] text-center">
+          <div className="py-6 ml-[400px] bg-neutral-100 rounded-lg shadow-md p-6 mx-[100px] relative mt-[-40px] font-bold text-xl">
             Professionals
-          </p>
-          <div className="flex justify-center mb-4">
+          </div>
+          <div className="flex justify-center mb-4 mt-[20px] ml-[300px]">
             <Select
               showSearch
               style={{ width: 200 }}
@@ -97,14 +91,14 @@ const AllProfessionals = () => {
               ))}
             </Select>
           </div>
-          <div className="mx-[250px]">
+          <div className=" ml-[380px]">
             {currentProfessionals.map((professional) => (
               <div key={professional._id}>
                 <Professionals professional={professional} />
               </div>
             ))}
             {totalPages > 1 && (
-              <div className="flex justify-center mt-4">
+              <div className="flex justify-center mt-4 ml-[-100px]">
                 <Pagination
                   current={current}
                   total={totalItems}
