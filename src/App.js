@@ -19,7 +19,9 @@ import PostsList from "./pages/ViewPost";
 import PublicPost from "./components/PublicPost";
 import PrivatePost from "./components/PrivatePost";
 import Khalti from "./pages/Khalti";
-
+import ProtectedRoute from "./components/ProtectedRoutes";
+import ProtectedRoutePro from "./components/ProtectedRoutePro";
+import ProtectedRouteUser from "./components/ProtectedRouteUser";
 import PrivateRoutes from "./utils/PrivateRoute";
 import Test from "./pages/test";
 import PasswordResetConfirmPage from "./pages/PasswordResetconfirmPage";
@@ -34,25 +36,55 @@ function App() {
         <Routes>
           {/* <Route element={<PrivateRoutes />}> */}
           <Route>
-            <Route element={<HomePage />} path="/" exact />
+            <Route
+              element={
+                <ProtectedRoute>
+                  <HomePage />
+                </ProtectedRoute>
+              }
+              path="/"
+              exact
+            />
           </Route>
           <Route element={<LoginPage />} path="/login" />
           <Route element={<Test />} path="/test" />
           <Route element={<RegisterPage />} path="/register" />
           <Route
-            element={<RegisterProfessional />}
+            element={
+              <ProtectedRouteUser>
+                <RegisterProfessional />
+              </ProtectedRouteUser>
+            }
             path="/register-professional"
           />
 
           <Route element={<YourBookings />} path="/your-booking" />
           <Route element={<History />} path="/history" />
 
-          <Route element={<PublicPost />} path="/public-post" />
-          <Route element={<PrivatePost />} path="/private-post" />
+          <Route
+            element={
+              <ProtectedRoutePro>
+                <PublicPost />
+              </ProtectedRoutePro>
+            }
+            path="/public-post"
+          />
+          <Route
+            element={
+              <ProtectedRoutePro>
+                <PrivatePost />
+              </ProtectedRoutePro>
+            }
+            path="/private-post"
+          />
 
           <Route element={<ProfilePage />} path="/profile" />
           <Route
-            element={<ProfessionalUpdate />}
+            element={
+              <ProtectedRoutePro>
+                <ProfessionalUpdate />
+              </ProtectedRoutePro>
+            }
             path="/professional/profile"
           />
           <Route element={<ViewProPage />} path="/viewpro" />

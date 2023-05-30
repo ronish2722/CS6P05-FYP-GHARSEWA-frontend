@@ -9,7 +9,7 @@ const RegisterProfessional = () => {
   const [description, setDescription] = useState("");
   const [number, setNumber] = useState("");
   const [price, setPrice] = useState("");
-  const [image, setImage] = useState("");
+  const [image, setImage] = useState(null);
   const [error, setError] = useState(null);
   const [success, setSuccess] = useState(false);
   const [categories, setCategories] = useState([]);
@@ -24,6 +24,9 @@ const RegisterProfessional = () => {
     fetchCategories();
   }, []);
 
+  const handleFileChange = (e) => {
+    setImage(e.target.files[0]);
+  };
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError(null);
@@ -36,17 +39,18 @@ const RegisterProfessional = () => {
     formData.append("number", number);
     formData.append("price", price);
     formData.append("category", selectedCategory);
-    formData.append("image", image[0]);
-    const userInfoFromStorage = localStorage.getItem("userInfo")
-      ? JSON.parse(localStorage.getItem("userInfo"))
-      : null;
+    formData.append("image", image);
+
     try {
+      const userInfoFromStorage = localStorage.getItem("userInfo")
+        ? JSON.parse(localStorage.getItem("userInfo"))
+        : null;
       const response = await axios.post(
         "/api/register-professionals/",
         formData,
         {
           headers: {
-            "Content-type": "application/json",
+            "Content-type": "multipart/form-data",
             Authorization: `Bearer ${userInfoFromStorage.token}`,
           },
         }
@@ -54,12 +58,12 @@ const RegisterProfessional = () => {
       setSuccess(true);
       message.success("Your registration request has been sent");
       navigate("/");
+      console.log(formData);
     } catch (err) {
       setError(err.response.data.detail);
       message.error(err.response.data.detail);
       // message.error("Your registeration is already being processed.");
       // message.error("Please wait for admins approval.");
-      navigate("/");
     }
   };
 
@@ -133,13 +137,8 @@ const RegisterProfessional = () => {
                 required
                 className="border-b-2 h-[40px]"
               />
-              <label htmlFor="image">Image:</label>
-              <input
-                type="file"
-                id="image"
-                onChange={(e) => setImage(e.target.files[0])}
-                required
-              />
+
+              <input type="file" onChange={handleFileChange} />
 
               <button className="bg-slate-700 w-[180px] h-[40px] text-white rounded-[15px] mx-auto">
                 Register

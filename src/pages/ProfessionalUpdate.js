@@ -11,7 +11,7 @@ const ProfessionalUpdate = () => {
   const [number, setNumber] = useState("");
   const [price, setPrice] = useState("");
   const [description, setDescription] = useState("");
-  const [category, setCategory] = useState("");
+
   const [image, setImage] = useState(null);
   const [success, setSuccess] = useState(false);
   const [error, setError] = useState(null);
@@ -39,7 +39,7 @@ const ProfessionalUpdate = () => {
       setNumber(professionalData.number);
       setPrice(professionalData.price);
       setDescription(professionalData.description);
-      setCategory(professionalData.category);
+
       console.log(response.data);
       // Set the image value if available
       if (professionalData.image) {
@@ -67,10 +67,9 @@ const ProfessionalUpdate = () => {
     formData.append("description", description);
     formData.append("number", number);
     formData.append("price", price);
-    formData.append("category", category);
+
     formData.append("image", image);
 
-    const token = localStorage.getItem("token");
     try {
       const userInfoFromStorage = localStorage.getItem("userInfo")
         ? JSON.parse(localStorage.getItem("userInfo"))
@@ -152,13 +151,7 @@ const ProfessionalUpdate = () => {
                   onChange={(e) => setDescription(e.target.value)}
                   className="border-b-2 h-[40px]"
                 />
-                <input
-                  type="text"
-                  placeholder="Category"
-                  value={category}
-                  onChange={(e) => setCategory(e.target.value)}
-                  className="border-b-2 h-[40px]"
-                />
+
                 <button className="bg-slate-700 w-[180px] h-[40px] text-white rounded-[15px] mx-auto">
                   Update
                 </button>

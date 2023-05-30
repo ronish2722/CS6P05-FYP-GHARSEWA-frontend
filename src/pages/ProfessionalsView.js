@@ -24,6 +24,11 @@ import GetReviews from "../components/GetReviews";
 import { listReviews } from "../actions/reviewsAction";
 
 function ProfessionalsView({}) {
+  const { TextArea } = Input;
+  const [rating, setRating] = useState("");
+  const [comment, setComment] = useState("");
+  const [mainreviews, setMainReviews] = useState([]);
+
   const [IsBooked, setIsBooked] = useState(false);
   const [bookId, setBookId] = useState(null); // Define bookId in the state
   const [bookings, setBookings] = useState([]);
@@ -31,6 +36,21 @@ function ProfessionalsView({}) {
   const [locations, setLocations] = useState("");
   const [bookedDate, setBookedDate] = useState("");
   const [startTime, setStartTime] = useState("");
+  const [submittedReviews, setSubmittedReviews] = useState([]);
+  // const [startTime, setStartTime] = useState("");
+
+  const handleStartTimeChange = (timeString) => {
+    const selectedTime = new Date(`01/01/2000 ${timeString}`);
+    const startTime = new Date(`01/01/2000 06:00 AM`);
+    const endTime = new Date(`01/01/2000 06:00 PM`);
+
+    if (selectedTime >= startTime && selectedTime <= endTime) {
+      setStartTime(timeString);
+    } else {
+      // Display an error message or take appropriate action
+      console.log("Selected time is not within the allowed range.");
+    }
+  };
 
   const showModal = () => {
     setIsModalOpen(true);
@@ -57,6 +77,14 @@ function ProfessionalsView({}) {
     dispatch(listReviews(id));
   }, [dispatch]);
   // console.log(IsBooked);
+
+  const handleRatingChange = (value) => {
+    setRating(value);
+  };
+
+  const handleCommentChange = (event) => {
+    setComment(event.target.value);
+  };
 
   useEffect(() => {
     const checkBookingStatus = async () => {
@@ -104,6 +132,22 @@ function ProfessionalsView({}) {
 
     fetchBookings();
   }, [bookId]);
+
+  useEffect(() => {
+    const fetchReviews = async () => {
+      try {
+        const response = await axios.get(
+          `http://127.0.0.1:8000/api/review/${id}/`
+        );
+        setMainReviews(response.data);
+        setSubmittedReviews(response.data);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
+    fetchReviews();
+  }, []);
 
   const handleBookClick = async (values) => {
     try {
@@ -189,9 +233,49 @@ function ProfessionalsView({}) {
     const currentDate = new Date();
     return current && current <= currentDate;
   };
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+
+    try {
+      const userInfoFromStorage = localStorage.getItem("userInfo")
+        ? JSON.parse(localStorage.getItem("userInfo"))
+        : null;
+      const response = await axios.post(
+        `http://127.0.0.1:8000/api/create-review/${id}`,
+        { rating, comment },
+        {
+          headers: {
+            Authorization: `Bearer ${userInfoFromStorage.token}`,
+          },
+        }
+      );
+
+      console.log(response.data); // handle success
+
+      // Reset the comment and rating state variables
+      setComment("");
+      setRating("");
+
+      await fetchReviews();
+    } catch (error) {
+      message.error(error.response.data.detail); // handle error
+    }
+  };
+
+  const fetchReviews = async () => {
+    try {
+      const response = await axios.get(
+        `http://127.0.0.1:8000/api/review/${id}/`
+      );
+      setMainReviews(response.data);
+      setSubmittedReviews(response.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   return (
-    <div className="bg-neutral-100">
+    <div className="bg-neutral-100 max-w-screen">
       <Header />
       {/* <Link to="/professionals" className="btn btn-light my-3">
         Go back
@@ -274,8 +358,8 @@ function ProfessionalsView({}) {
                     </Form.Item>
                     <Form.Item required name="start_time" value={startTime}>
                       <TimePicker
-                        format="h:mm"
-                        r
+                        format="HH:mm"
+                        required
                         onChange={(time, timeString) =>
                           setStartTime(timeString)
                         }
@@ -312,9 +396,59 @@ function ProfessionalsView({}) {
         onCancel={handleCancelModal}
         cancelButtonProps={{ style: { display: "none" } }}
       >
-        <Review />
+        <form onSubmit={handleSubmit}>
+          {error && <div>{error}</div>}
+
+          <div className="px-[100px]">
+            <div>
+              <p>Rating</p>
+              <Rate
+                value={rating}
+                onChange={handleRatingChange}
+                allowClear={false}
+                tooltips={["1", "2", "3", "4", "5"]}
+              />
+            </div>
+
+            <div className="py-[20px]">
+              <label>
+                Comment:
+                <TextArea
+                  rows={2}
+                  value={comment}
+                  onChange={handleCommentChange}
+                />
+              </label>
+            </div>
+
+            <button
+              className=" px-[50px] py-[10px] rounded-[10px] bg-slate-700 text-white ml-[60px]"
+              type="submit"
+              onClick={handleOk}
+            >
+              Submit
+            </button>
+          </div>
+        </form>
       </Modal>
-      <GetReviews />
+      <div className="px-[100px]">
+        {/* <h2 className="font-bold text-2xl mb-6">Reviews:</h2> */}
+        {submittedReviews.map((review) => (
+          <div key={review._id} className="py-4 border-b-2">
+            <p className="font-bold text-lg mb-2">{review.user}</p>
+            <div className="flex items-center mb-2">
+              <Rate allowHalf disabled value={review.rating} className="mr-2" />
+              <span className="text-gray-500 text-sm">{review.date}</span>
+            </div>
+            <p
+              className="text-gray-600
+          "
+            >
+              {review.comment}
+            </p>
+          </div>
+        ))}
+      </div>
       <Footer />
     </div>
   );

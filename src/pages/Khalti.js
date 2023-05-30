@@ -1,7 +1,55 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Link, useSearchParams } from "react-router-dom";
+import axios from "axios";
 
 const Khalti = () => {
+  const [posts, setPosts] = useState([]);
+  const [books, setBooks] = useState([]);
+
+  const [currentUser, setCurrentUser] = useState(null);
+  const currentDate = new Date();
+
+  // Fetch the current user information from localStorage
+  const userInfoFromStorage = localStorage.getItem("userInfo")
+    ? JSON.parse(localStorage.getItem("userInfo"))
+    : null;
+
+  const handleComplete = async (postId) => {
+    try {
+      await axios.put(
+        `http://127.0.0.1:8000/api/complete-post/${postId}/`,
+        { status: "Completed" },
+        {
+          headers: {
+            Authorization: `Bearer ${userInfoFromStorage.token}`,
+          },
+        }
+      );
+      setPosts((posts) =>
+        posts.map((p) => (p.id === postId ? { ...p, status: "Completed" } : p))
+      );
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  const handleCompleteBook = async (bookId) => {
+    try {
+      await axios.put(
+        `http://127.0.0.1:8000/api/complete-booking/${bookId}/`,
+        { status: "Completed" },
+        {
+          headers: {
+            Authorization: `Bearer ${userInfoFromStorage.token}`,
+          },
+        }
+      );
+      setBooks((books) =>
+        books.map((p) => (p.id === bookId ? { ...p, status: "Completed" } : p))
+      );
+    } catch (error) {
+      console.log(error);
+    }
+  };
   return (
     <div className="bg-neutral-200 h-screen flex items-center justify-center">
       <div className="bg-white rounded-lg p-8 max-w-md flex flex-col items-center">

@@ -69,6 +69,7 @@ function TodoList(taskId) {
         // Do something with the created post data
         console.log(postData);
         message.success("Activity added");
+        window.location.reload();
       }
     } catch (error) {
       console.error(error);
@@ -96,6 +97,7 @@ function TodoList(taskId) {
         // Handle successful update
         console.log(response.data);
         message.success("Todo updated successfully");
+        window.location.reload();
       }
     } catch (error) {
       console.error(error);
@@ -120,6 +122,7 @@ function TodoList(taskId) {
         // Handle successful deletion
         console.log(response.data);
         message.success("Todo deleted successfully");
+        window.location.reload();
       }
     } catch (error) {
       console.error(error);

@@ -33,7 +33,7 @@ const Header = () => {
   ];
 
   return (
-    <div className="bg-white  w-screen">
+    <div className="bg-white ">
       {/* <div>
         <Link to="/">Home</Link>
         <span>|</span>

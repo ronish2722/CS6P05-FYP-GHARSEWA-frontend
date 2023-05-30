@@ -3,7 +3,7 @@ import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import { listProfessionalsDetails } from "../actions/professionalAction";
-import { Space, Rate, Card, Button, Input } from "antd";
+import { Space, Rate, Card, Button, Input, Modal } from "antd";
 
 const Review = () => {
   const { TextArea } = Input;
@@ -30,7 +30,9 @@ const Review = () => {
   const handleOk = () => {
     setIsModalOpen(false);
   };
-
+  const handleCancelModal = () => {
+    setIsModalOpen(false);
+  };
   const handleSubmit = async (event) => {
     event.preventDefault();
 
@@ -59,36 +61,49 @@ const Review = () => {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      {error && <div>{error}</div>}
+    <Modal
+      title="Review"
+      open={isModalOpen}
+      onOk={handleOk}
+      okButtonProps={{ style: { display: "none" } }}
+      onCancel={handleCancelModal}
+      cancelButtonProps={{ style: { display: "none" } }}
+    >
+      <form onSubmit={handleSubmit}>
+        {error && <div>{error}</div>}
 
-      <div className="px-[100px]">
-        <div>
-          <p>Rating</p>
-          <Rate
-            value={rating}
-            onChange={handleRatingChange}
-            allowClear={false}
-            tooltips={["1", "2", "3", "4", "5"]}
-          />
+        <div className="px-[100px]">
+          <div>
+            <p>Rating</p>
+            <Rate
+              value={rating}
+              onChange={handleRatingChange}
+              allowClear={false}
+              tooltips={["1", "2", "3", "4", "5"]}
+            />
+          </div>
+
+          <div className="py-[20px]">
+            <label>
+              Comment:
+              <TextArea
+                rows={2}
+                value={comment}
+                onChange={handleCommentChange}
+              />
+            </label>
+          </div>
+
+          <button
+            className=" px-[50px] py-[10px] rounded-[10px] bg-slate-700 text-white ml-[60px]"
+            type="submit"
+            onClick={handleOk}
+          >
+            Submit
+          </button>
         </div>
-
-        <div className="py-[20px]">
-          <label>
-            Comment:
-            <TextArea rows={2} value={comment} onChange={handleCommentChange} />
-          </label>
-        </div>
-
-        <button
-          className=" px-[50px] py-[10px] rounded-[10px] bg-slate-700 text-white ml-[60px]"
-          type="submit"
-          onClick={handleOk}
-        >
-          Submit
-        </button>
-      </div>
-    </form>
+      </form>
+    </Modal>
   );
 };
 

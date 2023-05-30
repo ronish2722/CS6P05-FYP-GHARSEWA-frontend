@@ -1,4 +1,4 @@
-import { Select, Button, Card, Modal } from "antd";
+import { Select, Button, Card, Modal, message } from "antd";
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useSearchParams } from "react-router-dom";
@@ -65,6 +65,8 @@ function YourBooking() {
       setPosts((posts) =>
         posts.map((p) => (p.id === postId ? { ...p, status: "Completed" } : p))
       );
+
+      message.success("Payment success");
     } catch (error) {
       console.log(error);
     }
@@ -83,6 +85,8 @@ function YourBooking() {
       setBooks((books) =>
         books.map((p) => (p.id === bookId ? { ...p, status: "Completed" } : p))
       );
+      message.success("Payment success");
+      window.location.reload();
     } catch (error) {
       console.log(error);
     }
@@ -128,12 +132,37 @@ function YourBooking() {
     }
   };
 
-  const PaymentAction = (post) => {
-    handleEpay();
-    handleComplete(post.id);
-    setPosts((posts) =>
-      posts.map((p) => (p.id === post.id ? { ...p, status: "Complete" } : p))
-    );
+  const PaymentAction = async (post) => {
+    try {
+      await handleEpay(); // Assuming handlePay is an asynchronous function that returns a promise
+
+      // If handlePay is successful, execute handleComplete and setPosts
+      handleComplete(post.id);
+      setPosts((posts) =>
+        posts.map((p) => (p.id === post.id ? { ...p, status: "Complete" } : p))
+      );
+    } catch (error) {
+      // Handle error from handlePay
+      console.error(error);
+      // Display an error message or take appropriate action
+    }
+  };
+
+  const PaymentActionBooking = async (book) => {
+    try {
+      await handleEpay(); // Assuming handlePay is an asynchronous function that returns a promise
+
+      // If handlePay is successful, execute handleComplete and setPosts
+      handleOk();
+      handleCompleteBook(book._id);
+      setBooks((books) =>
+        books.map((p) => (p.id === book._id ? { ...p, status: "Complete" } : p))
+      );
+    } catch (error) {
+      // Handle error from handlePay
+      console.error(error);
+      // Display an error message or take appropriate action
+    }
   };
 
   useEffect(() => {
@@ -229,7 +258,17 @@ function YourBooking() {
                       <Button
                         className="flex-1 font-bold min-w-[150px] min-h-[180px] mr-[10px]
                       "
-                        onClick={() => PaymentAction(post)}
+                        onClick={() => {
+                          handleOk();
+                          handleComplete(post.id);
+                          setPosts((posts) =>
+                            posts.map((p) =>
+                              p.id === post.id
+                                ? { ...p, status: "Complete" }
+                                : p
+                            )
+                          );
+                        }}
                       >
                         <img
                           src={require("../image/pay.png")}
@@ -243,17 +282,7 @@ function YourBooking() {
                           src={require("../image/khalti.png")}
                           alt="khalti"
                           className="w-[120px] relative"
-                          onClick={() => {
-                            handleEpay();
-                            handleComplete(post.id);
-                            setPosts((posts) =>
-                              posts.map((p) =>
-                                p.id === post.id
-                                  ? { ...p, status: "Complete" }
-                                  : p
-                              )
-                            );
-                          }}
+                          onClick={() => PaymentAction(post)}
                           // onClick={() => {
                           //   handleComplete(post.id);
                           //   setPosts((posts) =>
@@ -368,7 +397,7 @@ function YourBooking() {
                           src={require("../image/khalti.png")}
                           alt="khalti"
                           className="w-[120px] relative"
-                          onClick={handleEpay}
+                          onClick={() => PaymentActionBooking(book)}
                           // // onClick={() => {
                           // //   handleComplete(post.id);
                           // //   setPosts((posts) =>
